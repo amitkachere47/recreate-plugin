@@ -1,13 +1,13 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
-use Uncanny_Automator\Recipe;
+use Crazy_Automator\Recipe;
 
 /**
  * Class WC_SET_SUBSCRIPTION_STATUS
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_SET_SUBSCRIPTION_STATUS {
 	use Recipe\Actions;
@@ -33,10 +33,10 @@ class WC_SET_SUBSCRIPTION_STATUS {
 		$this->set_is_pro( true );
 
 		/* translators: Action - WooCommerce Subscription */
-		$this->set_sentence( sprintf( esc_attr__( "Set the user's subscription of {{a subscription product:%1\$s}} to {{a status:%2\$s}}", 'uncanny-automator-pro' ), $this->get_action_meta(), 'WCS_STATUS' ) );
+		$this->set_sentence( sprintf( esc_attr__( "Set the user's subscription of {{a subscription product:%1\$s}} to {{a status:%2\$s}}", 'crazy-automator' ), $this->get_action_meta(), 'WCS_STATUS' ) );
 
 		/* translators: Action - WooCommerce Subscription */
-		$this->set_readable_sentence( esc_attr__( "Set the user's subscription of {{a subscription product}} to {{a status}}", 'uncanny-automator-pro' ) );
+		$this->set_readable_sentence( esc_attr__( "Set the user's subscription of {{a subscription product}} to {{a status}}", 'crazy-automator' ) );
 
 		$this->set_options_callback( array( $this, 'load_options' ) );
 		$this->register_action();
@@ -51,12 +51,12 @@ class WC_SET_SUBSCRIPTION_STATUS {
 
 		$options = array(
 			'options' => array(
-				Automator()->helpers->recipe->woocommerce->options->pro->all_wc_subscriptions( __( 'Subscription product', 'uncanny-automator-pro' ), $this->get_action_meta(), false, true ),
-				Automator()->helpers->recipe->woocommerce->options->pro->wc_subscription_statuses( null, 'WCS_STATUS' ),
+				Crazy_Automator()->helpers->recipe->woocommerce->options->pro->all_wc_subscriptions( __( 'Subscription product', 'crazy-automator' ), $this->get_action_meta(), false, true ),
+				Crazy_Automator()->helpers->recipe->woocommerce->options->pro->wc_subscription_statuses( null, 'WCS_STATUS' ),
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options );
 	}
 
 	/**
@@ -98,16 +98,16 @@ class WC_SET_SUBSCRIPTION_STATUS {
 		if ( empty( $subscriptions ) ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( 'The user was not a subscriber of the specified product.', 'uncanny-automator-pro' );
+			$error_message                       = __( 'The user was not a subscriber of the specified product.', 'crazy-automator' );
 			if ( intval( '-1' ) !== intval( $product_id ) ) {
-				$error_message = __( 'No subscription is associated with the user.', 'uncanny-automator-pro' );
+				$error_message = __( 'No subscription is associated with the user.', 'crazy-automator' );
 			}
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 		//
-		$set_status = Automator()->parse->text( str_replace( 'wc-', '', $action_data['meta']['WCS_STATUS'] ), $recipe_id, $user_id, $args );
+		$set_status = Crazy_Automator()->parse->text( str_replace( 'wc-', '', $action_data['meta']['WCS_STATUS'] ), $recipe_id, $user_id, $args );
 		$sub_failed = array();
 		$sub_passed = array();
 		/** @var \WC_Subscription $subscription */
@@ -126,7 +126,7 @@ class WC_SET_SUBSCRIPTION_STATUS {
 		}
 		// Nothing changed
 		if ( empty( $sub_passed ) && empty( $sub_failed ) ) {
-			$error_message = __( 'We are not able to change subscription status.', 'uncanny-automator-pro' );
+			$error_message = __( 'We are not able to change subscription status.', 'crazy-automator' );
 		}
 
 		// Some subscriptions failed
@@ -141,11 +141,11 @@ class WC_SET_SUBSCRIPTION_STATUS {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
 			$message                             = $error_message;
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $message );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $message );
 
 			return;
 		}
 
-		Automator()->complete->action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id );
 	}
 }

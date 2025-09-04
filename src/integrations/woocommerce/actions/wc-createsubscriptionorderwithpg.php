@@ -1,17 +1,17 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 use WC_Subscriptions_Product;
 
 /**
  * Class WC_CREATESUBSCRIPTIONORDERWITHPG
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_CREATESUBSCRIPTIONORDERWITHPG {
 
-	use \Uncanny_Automator\Recipe\Action_Tokens;
+	use \Crazy_Automator\Recipe\Action_Tokens;
 
 	/**
 	 * Integration code
@@ -52,15 +52,15 @@ class WC_CREATESUBSCRIPTIONORDERWITHPG {
 	public function define_action() {
 
 		$action = array(
-			'author'             => Automator()->get_author_name( $this->action_code ),
-			'support_link'       => Automator()->get_author_support_link( $this->action_code, 'integration/woocommerce/' ),
+			'author'             => Crazy_Automator()->get_author_name( $this->action_code ),
+			'support_link'       => Crazy_Automator()->get_author_support_link( $this->action_code, 'integration/woocommerce/' ),
 			'is_pro'             => true,
 			'integration'        => self::$integration,
 			'code'               => $this->action_code,
 			/* translators: Action - WooCommerce */
-			'sentence'           => sprintf( __( 'Create a subscription order with {{a product:%1$s}} with a payment method', 'uncanny-automator-pro' ), $this->action_meta ),
+			'sentence'           => sprintf( __( 'Create a subscription order with {{a product:%1$s}} with a payment method', 'crazy-automator' ), $this->action_meta ),
 			/* translators: Action - WooCommerce */
-			'select_option_name' => __( 'Create a subscription order with {{a product}} with a payment method', 'uncanny-automator-pro' ),
+			'select_option_name' => __( 'Create a subscription order with {{a product}} with a payment method', 'crazy-automator' ),
 			'priority'           => 10,
 			'accepted_args'      => 1,
 			'execution_function' => array(
@@ -70,17 +70,17 @@ class WC_CREATESUBSCRIPTIONORDERWITHPG {
 			'options_callback'   => array( $this, 'load_options' ),
 		);
 
-		// @see Wc_Pro_Tokens::get_order_action_tokens.
-		// @see Wc_Pro_Tokens::get_order_subscription_tokens.
+		// @see Crazy_Wc_Pro_Tokens::get_order_action_tokens.
+		// @see Crazy_Wc_Pro_Tokens::get_order_subscription_tokens.
 		$this->set_action_tokens(
 			array_merge(
-				Wc_Pro_Tokens::get_order_action_tokens(),
-				Wc_Pro_Tokens::get_order_subscription_tokens()
+				Crazy_Wc_Pro_Tokens::get_order_action_tokens(),
+				Crazy_Wc_Pro_Tokens::get_order_subscription_tokens()
 			),
 			$this->action_code
 		);
 
-		Automator()->register->action( $action );
+		Crazy_Automator()->register->action( $action );
 
 	}
 
@@ -93,24 +93,24 @@ class WC_CREATESUBSCRIPTIONORDERWITHPG {
 
 		$defaults = array(
 			'option_code'     => 'WCDETAILS',
-			'label'           => esc_attr__( 'Use same details for shipping details?', 'uncanny-automator' ),
+			'label'           => esc_attr__( 'Use same details for shipping details?', 'crazy-automator' ),
 			'input_type'      => 'select',
 			'supports_tokens' => false,
 			'required'        => true,
 			'default_value'   => 'YES',
 			'options'         => array(
-				'YES' => __( 'Yes', 'uncanny-automator-pro' ),
-				'NO'  => __( 'No', 'uncanny-automator-pro' ),
+				'YES' => __( 'Yes', 'crazy-automator' ),
+				'NO'  => __( 'No', 'crazy-automator' ),
 			),
 		);
 
 		$options_array = array(
 			'options_group' => array(
-				$this->action_meta => Automator()->helpers->recipe->woocommerce->pro->load_options_input( true, 'subscription' ),
+				$this->action_meta => Crazy_Automator()->helpers->recipe->woocommerce->pro->load_options_input( true, 'subscription' ),
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options_array );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options_array );
 	}
 
 	/**
@@ -127,35 +127,35 @@ class WC_CREATESUBSCRIPTIONORDERWITHPG {
 
 		// First make sure all required functions and classes exist
 		if ( ! function_exists( 'wc_create_order' ) || ! function_exists( 'wcs_create_subscription' ) || ! class_exists( 'WC_Subscriptions' ) ) {
-			$error_message                       = __( '`wc_create_order` or `wcs_create_subscription` function is missing.', 'uncanny-automator-pro' );
+			$error_message                       = __( '`wc_create_order` or `wcs_create_subscription` function is missing.', 'crazy-automator' );
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 
-		$order = Automator()->helpers->recipe->woocommerce->pro->wc_create_order( $user_id, $action_data, $recipe_id, $args, true, 'subscription' );
+		$order = Crazy_Automator()->helpers->recipe->woocommerce->pro->wc_create_order( $user_id, $action_data, $recipe_id, $args, true, 'subscription' );
 
 		if ( false === $order ) {
-			$error_message                       = __( 'Action execution failed.', 'uncanny-automator-pro' );
+			$error_message                       = __( 'Action execution failed.', 'crazy-automator' );
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 
-		// @see Wc_Pro_Tokens::hydrate_order_tokens.
-		// @see Wc_Pro_Tokens::hydrate_order_subscription_tokens.
+		// @see Crazy_Wc_Pro_Tokens::hydrate_order_tokens.
+		// @see Crazy_Wc_Pro_Tokens::hydrate_order_subscription_tokens.
 		$this->hydrate_tokens(
 			array_merge(
-				Wc_Pro_Tokens::hydrate_order_tokens( $order ),
-				Wc_Pro_Tokens::hydrate_order_subscription_tokens( $order )
+				Crazy_Wc_Pro_Tokens::hydrate_order_tokens( $order ),
+				Crazy_Wc_Pro_Tokens::hydrate_order_subscription_tokens( $order )
 			)
 		);
 
-		Automator()->complete_action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id );
 
 	}
 

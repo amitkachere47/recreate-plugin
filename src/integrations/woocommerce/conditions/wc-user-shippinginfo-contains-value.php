@@ -1,11 +1,11 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 /**
  * Class WC_USER_SHIPPINGINFO_CONTAINS_VALUE
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_USER_SHIPPINGINFO_CONTAINS_VALUE extends Action_Condition {
 
@@ -18,10 +18,10 @@ class WC_USER_SHIPPINGINFO_CONTAINS_VALUE extends Action_Condition {
 
 		$this->integration = 'WC';
 		/*translators: Token */
-		$this->name = __( "The user's {{shipping information}} {{contains}} {{a specific value}}", 'uncanny-automator-pro' );
+		$this->name = __( "The user's {{shipping information}} {{contains}} {{a specific value}}", 'crazy-automator' );
 		$this->code = 'SHIPPINGINFO_CONTAINS_VALUE';
 		/*translators: A token matches a value */
-		$this->dynamic_name  = sprintf( esc_html__( "The user's shipping {{information:%1\$s}} {{contains:%2\$s}} {{a specific value:%3\$s}}", 'uncanny-automator-pro' ), 'SHIPPING_FIELD', 'SHIPPING_CONDITION', 'SHIPPING_FIELD_VALUE' );
+		$this->dynamic_name  = sprintf( esc_html__( "The user's shipping {{information:%1\$s}} {{contains:%2\$s}} {{a specific value:%3\$s}}", 'crazy-automator' ), 'SHIPPING_FIELD', 'SHIPPING_CONDITION', 'SHIPPING_FIELD_VALUE' );
 		$this->is_pro        = true;
 		$this->requires_user = true;
 		$this->deprecated    = false;
@@ -36,7 +36,7 @@ class WC_USER_SHIPPINGINFO_CONTAINS_VALUE extends Action_Condition {
 
 		$shipping_field_args = array(
 			'option_code'           => 'SHIPPING_FIELD',
-			'label'                 => esc_html__( 'Information', 'uncanny-automator-pro' ),
+			'label'                 => esc_html__( 'Information', 'crazy-automator' ),
 			'required'              => true,
 			'options'               => $this->wc_shippinginfo_fields(),
 			'supports_custom_value' => true,
@@ -49,16 +49,16 @@ class WC_USER_SHIPPINGINFO_CONTAINS_VALUE extends Action_Condition {
 			$this->field->select_field_args(
 				array(
 					'option_code'           => 'SHIPPING_CONDITION',
-					'label'                 => esc_html__( 'Condition', 'uncanny-automator-pro' ),
+					'label'                 => esc_html__( 'Condition', 'crazy-automator' ),
 					'required'              => true,
 					'options'               => array(
 						array(
 							'value' => 'contains',
-							'text'  => __( 'contains', 'uncanny-automator-pro' ),
+							'text'  => __( 'contains', 'crazy-automator' ),
 						),
 						array(
 							'value' => 'not_contains',
-							'text'  => __( 'does not contain', 'uncanny-automator-pro' ),
+							'text'  => __( 'does not contain', 'crazy-automator' ),
 						),
 					),
 					'supports_custom_value' => false,
@@ -68,7 +68,7 @@ class WC_USER_SHIPPINGINFO_CONTAINS_VALUE extends Action_Condition {
 			$this->field->text(
 				array(
 					'option_code' => 'SHIPPING_FIELD_VALUE',
-					'label'       => esc_html__( 'Value', 'uncanny-automator-pro' ),
+					'label'       => esc_html__( 'Value', 'crazy-automator' ),
 					'required'    => true,
 				)
 			),
@@ -81,13 +81,13 @@ class WC_USER_SHIPPINGINFO_CONTAINS_VALUE extends Action_Condition {
 	public function wc_shippinginfo_fields() {
 
 		$options = array(
-			'shipping_address_1' => __( 'Address line 1', 'uncanny-automator-pro' ),
-			'shipping_address_2' => __( 'Address line 2', 'uncanny-automator-pro' ),
-			'shipping_city'      => __( 'City', 'uncanny-automator-pro' ),
-			'shipping_state'     => __( 'State', 'uncanny-automator-pro' ),
-			'shipping_country'   => __( 'Country', 'uncanny-automator-pro' ),
-			'shipping_phone'     => __( 'Phone', 'uncanny-automator-pro' ),
-			'shipping_company'   => __( 'Company', 'uncanny-automator-pro' ),
+			'shipping_address_1' => __( 'Address line 1', 'crazy-automator' ),
+			'shipping_address_2' => __( 'Address line 2', 'crazy-automator' ),
+			'shipping_city'      => __( 'City', 'crazy-automator' ),
+			'shipping_state'     => __( 'State', 'crazy-automator' ),
+			'shipping_country'   => __( 'Country', 'crazy-automator' ),
+			'shipping_phone'     => __( 'Phone', 'crazy-automator' ),
+			'shipping_company'   => __( 'Company', 'crazy-automator' ),
 		);
 
 		foreach ( $options as $id => $text ) {
@@ -117,13 +117,13 @@ class WC_USER_SHIPPINGINFO_CONTAINS_VALUE extends Action_Condition {
 		switch ( $condition ) {
 			case 'contains':
 				if ( false === $position ) {
-					$message = __( 'Shipping info does not contain value: ', 'uncanny-automator-pro' ) . $shipping_value;
+					$message = __( 'Shipping info does not contain value: ', 'crazy-automator' ) . $shipping_value;
 					$this->condition_failed( $message );
 				}
 				break;
 			case 'not_contains':
 				if ( is_numeric( $position ) ) {
-					$message = __( 'Shipping info contains value: ', 'uncanny-automator-pro' ) . $shipping_value;
+					$message = __( 'Shipping info contains value: ', 'crazy-automator' ) . $shipping_value;
 					$this->condition_failed( $message );
 				}
 				break;

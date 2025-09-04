@@ -1,13 +1,13 @@
 <?php
 
-namespace Uncanny_Automator_Pro\Loop_Filters;
+namespace Crazy_Automator_Pro\Loop_Filters;
 
-use Uncanny_Automator_Pro\Loops\Filter\Base\Loop_Filter;
+use Crazy_Automator_Pro\Loops\Filter\Base\Loop_Filter;
 
 /**
  * Class WC_HAS_USER_PURCHASED_PRODUCT
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_HAS_USER_PURCHASED_PRODUCT extends Loop_Filter {
 
@@ -18,11 +18,11 @@ class WC_HAS_USER_PURCHASED_PRODUCT extends Loop_Filter {
 	public function setup() {
 		$this->set_integration( 'WC' );
 		$this->set_meta( 'WC_HAS_USER_PURCHASED_PRODUCT' );
-		$this->set_sentence( esc_html_x( 'The user {{has/has not}} purchased {{a specific product}}', 'Filter sentence', 'uncanny-automator-pro' ) );
+		$this->set_sentence( esc_html_x( 'The user {{has/has not}} purchased {{a specific product}}', 'Filter sentence', 'crazy-automator' ) );
 		$this->set_sentence_readable(
 			sprintf(
 			/* translators: Filter sentence */
-				esc_html_x( 'The user {{has/has not:%1$s}} purchased {{a specific product:%2$s}}', 'Filter sentence', 'uncanny-automator-pro' ),
+				esc_html_x( 'The user {{has/has not:%1$s}} purchased {{a specific product:%2$s}}', 'Filter sentence', 'crazy-automator' ),
 				'CRITERIA',
 				$this->get_meta()
 			)
@@ -41,22 +41,22 @@ class WC_HAS_USER_PURCHASED_PRODUCT extends Loop_Filter {
 					'option_code'           => 'CRITERIA',
 					'type'                  => 'select',
 					'supports_custom_value' => false,
-					'label'                 => esc_html_x( 'Criteria', 'WooCommerce', 'uncanny-automator-pro' ),
+					'label'                 => esc_html_x( 'Criteria', 'WooCommerce', 'crazy-automator' ),
 					'options'               => array(
 						array(
-							'text'  => esc_html_x( 'has', 'WooCommerce', 'uncanny-automator-pro' ),
-							'value' => esc_html_x( 'has', 'WooCommerce', 'uncanny-automator-pro' ),
+							'text'  => esc_html_x( 'has', 'WooCommerce', 'crazy-automator' ),
+							'value' => esc_html_x( 'has', 'WooCommerce', 'crazy-automator' ),
 						),
 						array(
-							'text'  => esc_html_x( 'has not', 'WooCommerce', 'uncanny-automator-pro' ),
-							'value' => esc_html_x( 'has-not', 'WooCommerce', 'uncanny-automator-pro' ),
+							'text'  => esc_html_x( 'has not', 'WooCommerce', 'crazy-automator' ),
+							'value' => esc_html_x( 'has-not', 'WooCommerce', 'crazy-automator' ),
 						),
 					),
 				),
 				array(
 					'option_code'           => $this->get_meta(),
 					'type'                  => 'select',
-					'label'                 => esc_html_x( 'Product', 'WooCommerce', 'uncanny-automator-pro' ),
+					'label'                 => esc_html_x( 'Product', 'WooCommerce', 'crazy-automator' ),
 					'options'               => $this->get_woo_products(),
 					'supports_custom_value' => false,
 				),
@@ -77,7 +77,7 @@ class WC_HAS_USER_PURCHASED_PRODUCT extends Loop_Filter {
 			'post_status'    => 'publish',
 		);
 		$return  = array();
-		$options = Automator()->helpers->recipe->options->wp_query( $args, true, __( 'Any product' ) );
+		$options = Crazy_Automator()->helpers->recipe->options->wp_query( $args, true, __( 'Any product' ) );
 
 		foreach ( $options as $id => $text ) {
 			$return[] = array(

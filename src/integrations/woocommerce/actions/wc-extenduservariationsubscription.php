@@ -1,13 +1,13 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
-use Uncanny_Automator\Recipe;
+use Crazy_Automator\Recipe;
 
 /**
  * Class WC_EXTENDUSERVARIATIONSUBSCRIPTION
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 
@@ -34,29 +34,29 @@ class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 		$this->set_requires_user( true );
 		$this->set_is_pro( true );
 		/* translators: Action - WooCommerce Subscription */
-		$this->set_sentence( sprintf( esc_attr__( "Extend a user's subscription to {{a specific product variation:%1\$s}} of {{a specific product:%2\$s}} by {{a number of:%3\$s}} {{days:%4\$s}}", 'uncanny-automator-pro' ), $this->get_action_meta(), 'WOOVARIPRODUCT:' . $this->get_action_meta(), $this->get_action_meta() . '_NO_OF:' . $this->get_action_meta(), $this->get_action_meta() . '_DURATION:' . $this->get_action_meta() ) );
+		$this->set_sentence( sprintf( esc_attr__( "Extend a user's subscription to {{a specific product variation:%1\$s}} of {{a specific product:%2\$s}} by {{a number of:%3\$s}} {{days:%4\$s}}", 'crazy-automator' ), $this->get_action_meta(), 'WOOVARIPRODUCT:' . $this->get_action_meta(), $this->get_action_meta() . '_NO_OF:' . $this->get_action_meta(), $this->get_action_meta() . '_DURATION:' . $this->get_action_meta() ) );
 		/* translators: Action - WooCommerce Subscription */
-		$this->set_readable_sentence( esc_attr__( "Extend a user's subscription to {{a specific product variation}} of {{a specific product}} by {{a number of}} {{days}}", 'uncanny-automator-pro' ) );
+		$this->set_readable_sentence( esc_attr__( "Extend a user's subscription to {{a specific product variation}} of {{a specific product}} by {{a number of}} {{days}}", 'crazy-automator' ) );
 		$this->set_options_callback( array( $this, 'load_options' ) );
 		$this->set_action_tokens(
 			array(
 				'PRODUCT_TITLE'     => array(
-					'name' => __( 'Product title', 'uncanny-automator-pro' ),
+					'name' => __( 'Product title', 'crazy-automator' ),
 				),
 				'PRODUCT_ID'        => array(
-					'name' => __( 'Product ID', 'uncanny-automator-pro' ),
+					'name' => __( 'Product ID', 'crazy-automator' ),
 					'type' => 'int',
 				),
 				'PRODUCT_URL'       => array(
-					'name' => __( 'Product URL', 'uncanny-automator-pro' ),
+					'name' => __( 'Product URL', 'crazy-automator' ),
 					'type' => 'url',
 				),
 				'PRODUCT_THUMB_URL' => array(
-					'name' => __( 'Product featured image URL', 'uncanny-automator-pro' ),
+					'name' => __( 'Product featured image URL', 'crazy-automator' ),
 					'type' => 'url',
 				),
 				'PRODUCT_THUMB_ID'  => array(
-					'name' => __( 'Product featured image ID', 'uncanny-automator-pro' ),
+					'name' => __( 'Product featured image ID', 'crazy-automator' ),
 					'type' => 'int',
 				),
 			),
@@ -75,14 +75,14 @@ class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 
 		$select = array(
 			'option_code'     => $this->get_action_meta() . '_DURATION',
-			'label'           => esc_attr__( 'Length', 'uncanny-automator-pro' ),
+			'label'           => esc_attr__( 'Length', 'crazy-automator' ),
 			'input_type'      => 'select',
 			'default_value'   => null,
 			'options'         => array(
-				'day'   => esc_attr__( 'Day(s)', 'uncanny-automator-pro' ),
-				'week'  => esc_attr__( 'Week(s)', 'uncanny-automator-pro' ),
-				'month' => esc_attr__( 'Month(s)', 'uncanny-automator-pro' ),
-				'year'  => esc_attr__( 'Year(s)', 'uncanny-automator-pro' ),
+				'day'   => esc_attr__( 'Day(s)', 'crazy-automator' ),
+				'week'  => esc_attr__( 'Week(s)', 'crazy-automator' ),
+				'month' => esc_attr__( 'Month(s)', 'crazy-automator' ),
+				'year'  => esc_attr__( 'Year(s)', 'crazy-automator' ),
 			),
 			'options_show_id' => false,
 		);
@@ -90,8 +90,8 @@ class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 		$options = array(
 			'options_group' => array(
 				$this->get_action_meta() => array(
-					Automator()->helpers->recipe->woocommerce->options->pro->all_wc_variation_subscriptions(
-						esc_attr__( 'Variable subscription product', 'uncanny-automator-pro' ),
+					Crazy_Automator()->helpers->recipe->woocommerce->options->pro->all_wc_variation_subscriptions(
+						esc_attr__( 'Variable subscription product', 'crazy-automator' ),
 						$this->get_action_meta(),
 						array(
 							'token'        => false,
@@ -101,21 +101,21 @@ class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 							'endpoint'     => 'select_variations_from_WOOSELECTVARIATION',
 						)
 					),
-					Automator()->helpers->recipe->field->select_field_ajax( 'WOOVARIPRODUCT', esc_attr__( 'Variation', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text(
+					Crazy_Automator()->helpers->recipe->field->select_field_ajax( 'WOOVARIPRODUCT', esc_attr__( 'Variation', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text(
 						array(
 							'option_code' => $this->get_action_meta() . '_NO_OF',
-							'label'       => __( 'Number', 'uncanny-automator-pro' ),
+							'label'       => __( 'Number', 'crazy-automator' ),
 							'input_type'  => 'text',
 							'tokens'      => true,
 						)
 					),
-					Automator()->helpers->recipe->field->select( $select ),
+					Crazy_Automator()->helpers->recipe->field->select( $select ),
 				),
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options );
 	}
 
 	/**
@@ -142,8 +142,8 @@ class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 
 		if ( ! $product->is_type( 'variation' ) ) {
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( 'The selected product is not a variable subscription product.', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = __( 'The selected product is not a variable subscription product.', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
@@ -163,8 +163,8 @@ class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 		if ( empty( $subscriptions ) ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( 'No active subscriptions were found.', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = __( 'No active subscriptions were found.', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
@@ -181,17 +181,17 @@ class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 
 			$dates_to_update        = array();
 			$dates_to_update['end'] = gmdate( 'Y-m-d H:i:s', wcs_add_time( $no_of, $duration, $subscription->get_time( 'end' ) ) );
-			$order_number           = sprintf( _x( '#%s', 'hash before order number', 'uncanny-automator-pro' ), $subscription->get_order_number() ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+			$order_number           = sprintf( _x( '#%s', 'hash before order number', 'crazy-automator' ), $subscription->get_order_number() ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 			$order_link             = sprintf( '<a href="%s">%s</a>', esc_url( wcs_get_edit_post_link( $subscription->get_id() ) ), $order_number );
 
 			try {
 				$subscription->update_dates( $dates_to_update );
 				// translators: placeholder contains a link to the order's edit screen.
-				$subscription->add_order_note( sprintf( __( 'Subscription successfully extended by Automator. Order %s', 'uncanny-automator-pro' ), $order_link ) );
+				$subscription->add_order_note( sprintf( __( 'Subscription successfully extended by Automator. Order %s', 'crazy-automator' ), $order_link ) );
 				$count ++;
 			} catch ( \Exception $e ) {
 				// translators: placeholder contains a link to the order's edit screen.
-				$subscription->add_order_note( sprintf( __( 'Failed to extend subscription after customer renewed early. Order %s', 'uncanny-automator-pro' ), $order_link ) );
+				$subscription->add_order_note( sprintf( __( 'Failed to extend subscription after customer renewed early. Order %s', 'crazy-automator' ), $order_link ) );
 			}
 		}
 
@@ -208,13 +208,13 @@ class WC_EXTENDUSERVARIATIONSUBSCRIPTION {
 		if ( 0 === $count ) {
 			$action_data['do-nothing'] = true;
 			//$action_data['complete_with_errors'] = true;
-			$error_message = _x( 'The subscription has no end date.', 'WooCommerce Subscriptions', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message = _x( 'The subscription has no end date.', 'WooCommerce Subscriptions', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 
-		Automator()->complete->action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id );
 
 	}
 }

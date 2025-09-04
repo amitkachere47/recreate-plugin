@@ -1,13 +1,13 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
-use Uncanny_Automator\Recipe;
+use Crazy_Automator\Recipe;
 
 /**
  * Class WC_SET_PRICE_PRODUCT
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_SET_PRICE_PRODUCT {
 	use Recipe\Actions;
@@ -30,10 +30,10 @@ class WC_SET_PRICE_PRODUCT {
 		$this->set_is_pro( true );
 
 		/* translators: Action - WooCommerce */
-		$this->set_sentence( sprintf( esc_attr__( 'Change the price of {{a specific product:%1$s}} to {{a new price:%2$s}}', 'uncanny-automator-pro' ), $this->get_action_meta(), 'WCS_NEW_PRICE' ) );
+		$this->set_sentence( sprintf( esc_attr__( 'Change the price of {{a specific product:%1$s}} to {{a new price:%2$s}}', 'crazy-automator' ), $this->get_action_meta(), 'WCS_NEW_PRICE' ) );
 
 		/* translators: Action - WooCommerce */
-		$this->set_readable_sentence( esc_attr__( 'Change the price of {{a specific product}} to {{a new price}}', 'uncanny-automator-pro' ) );
+		$this->set_readable_sentence( esc_attr__( 'Change the price of {{a specific product}} to {{a new price}}', 'crazy-automator' ) );
 
 		$this->set_options_callback( array( $this, 'load_options' ) );
 		$this->register_action();
@@ -48,12 +48,12 @@ class WC_SET_PRICE_PRODUCT {
 
 		$options = array(
 			'options' => array(
-				Automator()->helpers->recipe->woocommerce->options->all_wc_products( esc_attr__( 'Product', 'uncanny-automator-pro' ) ),
-				Automator()->helpers->recipe->field->float(
+				Crazy_Automator()->helpers->recipe->woocommerce->options->all_wc_products( esc_attr__( 'Product', 'crazy-automator' ) ),
+				Crazy_Automator()->helpers->recipe->field->float(
 					array(
 						'option_code'     => 'WCS_NEW_PRICE',
-						'label'           => esc_attr__( 'Price', 'uncanny-automator-pro' ),
-						'placeholder'     => esc_attr__( 'Example: 99.99', 'uncanny-automator-pro' ),
+						'label'           => esc_attr__( 'Price', 'crazy-automator' ),
+						'placeholder'     => esc_attr__( 'Example: 99.99', 'crazy-automator' ),
 						'required'        => true,
 						'input_type'      => 'float',
 						'supports_tokens' => true,
@@ -62,7 +62,7 @@ class WC_SET_PRICE_PRODUCT {
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options );
 	}
 
 	/**
@@ -85,8 +85,8 @@ class WC_SET_PRICE_PRODUCT {
 		if ( ! $product_id ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( 'Invalid product.', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = __( 'Invalid product.', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 			return;
 		}
 
@@ -97,18 +97,18 @@ class WC_SET_PRICE_PRODUCT {
 		if ( false === $product ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( "Product doesn't exist", 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = __( "Product doesn't exist", 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 			return;
 		}
 
-		$new_price = Automator()->parse->text( str_replace( 'wc-', '', $action_data['meta']['WCS_NEW_PRICE'] ), $recipe_id, $user_id, $args );
+		$new_price = Crazy_Automator()->parse->text( str_replace( 'wc-', '', $action_data['meta']['WCS_NEW_PRICE'] ), $recipe_id, $user_id, $args );
 
 		if ( empty( $new_price ) ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( 'Price is missing.', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = __( 'Price is missing.', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 			return;
 		}
 
@@ -117,8 +117,8 @@ class WC_SET_PRICE_PRODUCT {
 		if ( $new_price < 0 ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( 'Invalid price.', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = __( 'Invalid price.', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 			return;
 		}
 
@@ -126,6 +126,6 @@ class WC_SET_PRICE_PRODUCT {
 		$product->set_regular_price( $new_price );
 		$product->save();
 
-		Automator()->complete->action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id );
 	}
 }

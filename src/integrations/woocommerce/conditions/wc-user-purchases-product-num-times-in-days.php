@@ -1,18 +1,18 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 /**
  * Class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
-class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS extends \Uncanny_Automator_Pro\Action_Condition {
+class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS extends Action_Condition {
 
 	public function define_condition() {
 		$this->integration   = 'WC';
-		$this->name          = esc_attr_x( 'The user has purchased {{a product}} in the past {{number of days}}', 'WooCommerce', 'uncanny-automator-pro' );
-		$this->dynamic_name  = sprintf( esc_html_x( 'The user {{has/has not:%1$s}} purchased {{a product:%2$s}} {{a number of times:%3$s}} in the past {{number of days:%4$s}}', 'WooCommerce', 'uncanny-automator-pro' ), 'CONDITION', 'PRODUCT', 'TIMES', 'DAYS' );
+		$this->name          = esc_attr_x( 'The user has purchased {{a product}} in the past {{number of days}}', 'WooCommerce', 'crazy-automator' );
+		$this->dynamic_name  = sprintf( esc_html_x( 'The user {{has/has not:%1$s}} purchased {{a product:%2$s}} {{a number of times:%3$s}} in the past {{number of days:%4$s}}', 'WooCommerce', 'crazy-automator' ), 'CONDITION', 'PRODUCT', 'TIMES', 'DAYS' );
 		$this->code          = 'USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS';
 		$this->requires_user = true;
 	}
@@ -25,7 +25,7 @@ class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS extends \Uncanny_Automator_Pro
 	public function fields() {
 		$products_field_args = array(
 			'option_code'           => 'PRODUCT',
-			'label'                 => esc_html__( 'Product', 'uncanny-automator-pro' ),
+			'label'                 => esc_html__( 'Product', 'crazy-automator' ),
 			'required'              => true,
 			'options'               => $this->wc_products_options(),
 			'supports_custom_value' => true,
@@ -46,7 +46,7 @@ class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS extends \Uncanny_Automator_Pro
 			$this->field->select_field_args(
 				array(
 					'option_code'           => 'CONDITION',
-					'label'                 => esc_html__( 'Condition', 'uncanny-automator-pro' ),
+					'label'                 => esc_html__( 'Condition', 'crazy-automator' ),
 					'required'              => true,
 					'options'               => $condition_options,
 					'supports_custom_value' => true,
@@ -56,7 +56,7 @@ class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS extends \Uncanny_Automator_Pro
 			$this->field->text(
 				array(
 					'option_code'            => 'TIMES',
-					'label'                  => esc_html__( 'Times', 'uncanny-automator-pro' ),
+					'label'                  => esc_html__( 'Times', 'crazy-automator' ),
 					'show_label_in_sentence' => true,
 					'input_type'             => 'int',
 					'required'               => true,
@@ -66,7 +66,7 @@ class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS extends \Uncanny_Automator_Pro
 			$this->field->text(
 				array(
 					'option_code'            => 'DAYS',
-					'label'                  => esc_html__( 'Days', 'uncanny-automator-pro' ),
+					'label'                  => esc_html__( 'Days', 'crazy-automator' ),
 					'show_label_in_sentence' => true,
 					'input_type'             => 'int',
 					'required'               => true,
@@ -88,7 +88,7 @@ class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS extends \Uncanny_Automator_Pro
 			'post_status'    => 'publish',
 		);
 		$return  = array();
-		$options = Automator()->helpers->recipe->options->wp_query( $args, false, false );
+		$options = Crazy_Automator()->helpers->recipe->options->wp_query( $args, false, false );
 		if ( empty( $options ) ) {
 			return $return;
 		}
@@ -119,22 +119,22 @@ class WC_USER_PURCHASES_PRODUCT_NUM_TIMES_IN_DAYS extends \Uncanny_Automator_Pro
 
 		if ( 'has' === $condition ) {
 			if ( 0 === $validate ) {
-				$log_error = sprintf( __( 'The user has not purchased %1$s in the past %2$d days', 'uncanny-automator-pro' ), $product_name, $days ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+				$log_error = sprintf( __( 'The user has not purchased %1$s in the past %2$d days', 'crazy-automator' ), $product_name, $days ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 				$this->condition_failed( $log_error );
 			}
 			if ( $validate > 0 && $times !== $validate ) {
-				$log_error = sprintf( __( 'The user has not purchased %1$s %2$d times in the past %3$d days', 'uncanny-automator-pro' ), $product_name, $times, $days ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+				$log_error = sprintf( __( 'The user has not purchased %1$s %2$d times in the past %3$d days', 'crazy-automator' ), $product_name, $times, $days ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 				$this->condition_failed( $log_error );
 			}
 		}
 
 		if ( 'has_not' === $condition ) {
 			if ( $validate > 0 && $times < $validate ) {
-				$log_error = sprintf( __( 'The user has purchased %1$s in the past %2$d days', 'uncanny-automator-pro' ), $product_name, $days ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+				$log_error = sprintf( __( 'The user has purchased %1$s in the past %2$d days', 'crazy-automator' ), $product_name, $days ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 				$this->condition_failed( $log_error );
 			}
 			if ( $validate > 0 && $times !== $validate ) {
-				$log_error = sprintf( __( 'The user has purchased %1$s %2$d times in the past %3$d days', 'uncanny-automator-pro' ), $product_name, $times, $days ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+				$log_error = sprintf( __( 'The user has purchased %1$s %2$d times in the past %3$d days', 'crazy-automator' ), $product_name, $times, $days ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
 				$this->condition_failed( $log_error );
 			}
 		}

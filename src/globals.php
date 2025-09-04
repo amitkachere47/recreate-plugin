@@ -1,29 +1,29 @@
 <?php
 
-if ( ! defined( 'UAPro_ABSPATH' ) ) {
+if ( ! defined( 'CAPro_ABSPATH' ) ) {
 	/**
 	 * Automator Pro ABSPATH for file includes
 	 */
-	define( 'UAPro_ABSPATH', dirname( AUTOMATOR_PRO_FILE ) . DIRECTORY_SEPARATOR ); // phpcs:ignore Generic.NamingConventions.UpperCaseConstantName.ConstantNotUpperCase
+	define( 'CAPro_ABSPATH', dirname( CRAZY_AUTOMATOR_PRO_FILE ) . DIRECTORY_SEPARATOR ); // phpcs:ignore Generic.NamingConventions.UpperCaseConstantName.ConstantNotUpperCase
 }
 
-if ( ! defined( 'AUTOMATOR_PRO_STORE_URL' ) ) {
+if ( ! defined( 'CRAZY_AUTOMATOR_PRO_STORE_URL' ) ) {
 	/**
 	 * URL of store powering the plugin
 	 */
-	define( 'AUTOMATOR_PRO_STORE_URL', 'https://automatorplugin.com/' );
+	define( 'CRAZY_AUTOMATOR_PRO_STORE_URL', 'https://example.com/' );
 }
 
-if ( ! defined( 'AUTOMATOR_PRO_ITEM_NAME' ) ) {
+if ( ! defined( 'CRAZY_AUTOMATOR_PRO_ITEM_NAME' ) ) {
 	/**
 	 * Store Item download name/title
 	 */
-	define( 'AUTOMATOR_PRO_ITEM_NAME', 'Uncanny Automator Pro' );
+	define( 'CRAZY_AUTOMATOR_PRO_ITEM_NAME', 'CrazyAutomator Pro' );
 }
 
-if ( ! defined( 'AUTOMATOR_PRO_ITEM_ID' ) ) {
+if ( ! defined( 'CRAZY_AUTOMATOR_PRO_ITEM_ID' ) ) {
 	/**
 	 * Store Item ID
 	 */
-	define( 'AUTOMATOR_PRO_ITEM_ID', 506 );
+	define( 'CRAZY_AUTOMATOR_PRO_ITEM_ID', 506 );
 }

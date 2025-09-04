@@ -1,13 +1,13 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 use WC_Order;
 
 /**
  * Class WC_SETSTATUSTOORDER
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_SETSTATUSTOORDER {
 
@@ -42,23 +42,23 @@ class WC_SETSTATUSTOORDER {
 	public function define_action() {
 
 		$action = array(
-			'author'             => Automator()->get_author_name( $this->action_code ),
-			'support_link'       => Automator()->get_author_support_link( $this->action_code, 'integration/woocommerce/' ),
+			'author'             => Crazy_Automator()->get_author_name( $this->action_code ),
+			'support_link'       => Crazy_Automator()->get_author_support_link( $this->action_code, 'integration/woocommerce/' ),
 			'is_pro'             => true,
 			'requires_user'      => false,
 			'integration'        => self::$integration,
 			'code'               => $this->action_code,
 			/* translators: Action - WooCommerce */
-			'sentence'           => sprintf( __( 'Set {{a specific order:%1$s}} to {{a specific status:%2$s}}', 'uncanny-automator-pro' ), $this->action_meta, 'WCSTATUSES' ),
+			'sentence'           => sprintf( __( 'Set {{a specific order:%1$s}} to {{a specific status:%2$s}}', 'crazy-automator' ), $this->action_meta, 'WCSTATUSES' ),
 			/* translators: Action - WooCommerce */
-			'select_option_name' => __( 'Set {{a specific order}} to {{a specific status}}', 'uncanny-automator-pro' ),
+			'select_option_name' => __( 'Set {{a specific order}} to {{a specific status}}', 'crazy-automator' ),
 			'priority'           => 1,
 			'accepted_args'      => 1,
 			'execution_function' => array( $this, 'set_order_status_to_order' ),
 			'options_callback'   => array( $this, 'load_options' ),
 		);
 
-		Automator()->register->action( $action );
+		Crazy_Automator()->register->action( $action );
 	}
 
 	/**
@@ -66,18 +66,18 @@ class WC_SETSTATUSTOORDER {
 	 */
 	public function load_options() {
 
-		return Automator()->utilities->keep_order_of_options(
+		return Crazy_Automator()->utilities->keep_order_of_options(
 			array(
 				'options' => array(
-					Automator()->helpers->recipe->field->text(
+					Crazy_Automator()->helpers->recipe->field->text(
 						array(
 							'option_code' => $this->action_meta,
-							'label'       => __( 'Order ID', 'uncanny-automator' ),
-							'placeholder' => __( 'Order ID', 'uncanny-automator' ),
+							'label'       => __( 'Order ID', 'crazy-automator' ),
+							'placeholder' => __( 'Order ID', 'crazy-automator' ),
 						)
 					),
-					Automator()->helpers->recipe->woocommerce->options->wc_order_statuses(
-						__( 'Status', 'uncanny-automator' ),
+					Crazy_Automator()->helpers->recipe->woocommerce->options->wc_order_statuses(
+						__( 'Status', 'crazy-automator' ),
 						'WCSTATUSES'
 					),
 				),
@@ -95,36 +95,36 @@ class WC_SETSTATUSTOORDER {
 	 */
 	public function set_order_status_to_order( $user_id, $action_data, $recipe_id, $args ) {
 
-		$order_id = Automator()->parse->text( $action_data['meta']['WCORDERID'], $recipe_id, $user_id, $args );
+		$order_id = Crazy_Automator()->parse->text( $action_data['meta']['WCORDERID'], $recipe_id, $user_id, $args );
 		if ( empty( $order_id ) ) {
-			$error_message                       = __( 'Order ID is not valid.', 'uncanny-automator-pro' );
+			$error_message                       = __( 'Order ID is not valid.', 'crazy-automator' );
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
-		$new_status = Automator()->parse->text( $action_data['meta']['WCSTATUSES'], $recipe_id, $user_id, $args );
+		$new_status = Crazy_Automator()->parse->text( $action_data['meta']['WCSTATUSES'], $recipe_id, $user_id, $args );
 		if ( empty( $new_status ) ) {
-			$error_message                       = __( 'Order status is not valid.', 'uncanny-automator-pro' );
+			$error_message                       = __( 'Order status is not valid.', 'crazy-automator' );
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 		$order = wc_get_order( $order_id );
 
 		if ( ! $order instanceof WC_Order ) {
-			$error_message                       = __( 'No order found with the specified order ID.', 'uncanny-automator-pro' );
+			$error_message                       = __( 'No order found with the specified order ID.', 'crazy-automator' );
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 
 		$order->update_status( $new_status );
-		Automator()->complete_action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id );
 	}
 }

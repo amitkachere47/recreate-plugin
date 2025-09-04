@@ -1,13 +1,13 @@
 <?php
 
-namespace Uncanny_Automator_Pro\Loop_Filters;
+namespace Crazy_Automator_Pro\Loop_Filters;
 
-use Uncanny_Automator_Pro\Loops\Filter\Base\Loop_Filter;
+use Crazy_Automator_Pro\Loops\Filter\Base\Loop_Filter;
 
 /**
  * Class WCS_HAS_USER_AN_ACTIVE_SUBSCRIPTION
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WCS_HAS_USER_AN_ACTIVE_SUBSCRIPTION extends Loop_Filter {
 
@@ -24,11 +24,11 @@ class WCS_HAS_USER_AN_ACTIVE_SUBSCRIPTION extends Loop_Filter {
 
 		$this->set_integration( 'WC' );
 		$this->set_meta( 'WCS_HAS_USER_AN_ACTIVE_SUBSCRIPTION' );
-		$this->set_sentence( esc_html_x( 'The user {{has/does not have}} an active subscription of {{a product}}', 'Filter sentence', 'uncanny-automator-pro' ) );
+		$this->set_sentence( esc_html_x( 'The user {{has/does not have}} an active subscription of {{a product}}', 'Filter sentence', 'crazy-automator' ) );
 		$this->set_sentence_readable(
 			sprintf(
 			/* translators: Filter sentence */
-				esc_html_x( 'The user {{has/does not have:%1$s}} an active subscription of {{a product:%2$s}}', 'Filter sentence', 'uncanny-automator-pro' ),
+				esc_html_x( 'The user {{has/does not have:%1$s}} an active subscription of {{a product:%2$s}}', 'Filter sentence', 'crazy-automator' ),
 				'CRITERIA',
 				$this->get_meta()
 			)
@@ -56,22 +56,22 @@ class WCS_HAS_USER_AN_ACTIVE_SUBSCRIPTION extends Loop_Filter {
 					'option_code'           => 'CRITERIA',
 					'type'                  => 'select',
 					'supports_custom_value' => false,
-					'label'                 => esc_html_x( 'Criteria', 'WooCommerce Subscription', 'uncanny-automator-pro' ),
+					'label'                 => esc_html_x( 'Criteria', 'WooCommerce Subscription', 'crazy-automator' ),
 					'options'               => array(
 						array(
-							'text'  => esc_html_x( 'has', 'WooCommerce Subscription', 'uncanny-automator-pro' ),
-							'value' => esc_html_x( 'has', 'WooCommerce Subscription', 'uncanny-automator-pro' ),
+							'text'  => esc_html_x( 'has', 'WooCommerce Subscription', 'crazy-automator' ),
+							'value' => esc_html_x( 'has', 'WooCommerce Subscription', 'crazy-automator' ),
 						),
 						array(
-							'text'  => esc_html_x( 'does not have', 'WooCommerce Subscription', 'uncanny-automator-pro' ),
-							'value' => esc_html_x( 'does-not-have', 'WooCommerce Subscription', 'uncanny-automator-pro' ),
+							'text'  => esc_html_x( 'does not have', 'WooCommerce Subscription', 'crazy-automator' ),
+							'value' => esc_html_x( 'does-not-have', 'WooCommerce Subscription', 'crazy-automator' ),
 						),
 					),
 				),
 				array(
 					'option_code'           => $this->get_meta(),
 					'type'                  => 'select',
-					'label'                 => esc_html_x( 'Subscription', 'WooCommerce Subscription', 'uncanny-automator-pro' ),
+					'label'                 => esc_html_x( 'Subscription', 'WooCommerce Subscription', 'crazy-automator' ),
 					'options'               => $this->get_subscription_products(),
 					'supports_custom_value' => false,
 				),
@@ -90,13 +90,13 @@ class WCS_HAS_USER_AN_ACTIVE_SUBSCRIPTION extends Loop_Filter {
 		$options = array(
 			array(
 				'value' => '-1',
-				'text'  => esc_attr_x( 'Any subscription', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+				'text'  => esc_attr_x( 'Any subscription', 'WooCommerce Subscriptions', 'crazy-automator' ),
 			),
 		);
 		foreach ( $subscriptions as $subscription ) {
 			$options[] = array(
 				'value' => $subscription['ID'],
-				'text'  => esc_attr_x( $subscription['post_title'], 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+				'text'  => esc_attr_x( $subscription['post_title'], 'WooCommerce Subscriptions', 'crazy-automator' ),
 			);
 
 		}

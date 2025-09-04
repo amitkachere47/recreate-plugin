@@ -1,13 +1,13 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
-use Uncanny_Automator\Recipe;
+use Crazy_Automator\Recipe;
 
 /**
  * Class WC_SHORTEN_USER_SUBSCRIPTION
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_SHORTEN_USER_SUBSCRIPTION {
 
@@ -35,32 +35,32 @@ class WC_SHORTEN_USER_SUBSCRIPTION {
 		$this->set_is_pro( true );
 
 		/* translators: Action - WooCommerce Subscription */
-		$this->set_sentence( sprintf( esc_attr_x( "Shorten a user's subscription to {{a specific product:%1\$s}} by {{a number of:%2\$s}} {{days:%3\$s}}", 'WooCommerce Subscriptions', 'uncanny-automator-pro' ), $this->get_action_meta(), $this->get_action_meta() . '_NO_OF:' . $this->get_action_meta(), $this->get_action_meta() . '_DURATION:' . $this->get_action_meta() ) );
+		$this->set_sentence( sprintf( esc_attr_x( "Shorten a user's subscription to {{a specific product:%1\$s}} by {{a number of:%2\$s}} {{days:%3\$s}}", 'WooCommerce Subscriptions', 'crazy-automator' ), $this->get_action_meta(), $this->get_action_meta() . '_NO_OF:' . $this->get_action_meta(), $this->get_action_meta() . '_DURATION:' . $this->get_action_meta() ) );
 
 		/* translators: Action - WooCommerce Subscription */
-		$this->set_readable_sentence( esc_attr_x( "Shorten a user's subscription to {{a specific product}} by {{a number of}} {{days}}", 'WooCommerce Subscriptions', 'uncanny-automator-pro' ) );
+		$this->set_readable_sentence( esc_attr_x( "Shorten a user's subscription to {{a specific product}} by {{a number of}} {{days}}", 'WooCommerce Subscriptions', 'crazy-automator' ) );
 
 		$this->set_options_callback( array( $this, 'load_options' ) );
 
 		$this->set_action_tokens(
 			array(
 				'PRODUCT_TITLE'     => array(
-					'name' => _x( 'Product title', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+					'name' => _x( 'Product title', 'WooCommerce Subscriptions', 'crazy-automator' ),
 				),
 				'PRODUCT_ID'        => array(
-					'name' => _x( 'Product ID', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+					'name' => _x( 'Product ID', 'WooCommerce Subscriptions', 'crazy-automator' ),
 					'type' => 'int',
 				),
 				'PRODUCT_URL'       => array(
-					'name' => _x( 'Product URL', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+					'name' => _x( 'Product URL', 'WooCommerce Subscriptions', 'crazy-automator' ),
 					'type' => 'url',
 				),
 				'PRODUCT_THUMB_URL' => array(
-					'name' => _x( 'Product featured image URL', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+					'name' => _x( 'Product featured image URL', 'WooCommerce Subscriptions', 'crazy-automator' ),
 					'type' => 'url',
 				),
 				'PRODUCT_THUMB_ID'  => array(
-					'name' => _x( 'Product featured image ID', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+					'name' => _x( 'Product featured image ID', 'WooCommerce Subscriptions', 'crazy-automator' ),
 					'type' => 'int',
 				),
 			),
@@ -79,14 +79,14 @@ class WC_SHORTEN_USER_SUBSCRIPTION {
 
 		$select = array(
 			'option_code'     => $this->get_action_meta() . '_DURATION',
-			'label'           => esc_attr_x( 'Length', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+			'label'           => esc_attr_x( 'Length', 'WooCommerce Subscriptions', 'crazy-automator' ),
 			'input_type'      => 'select',
 			'default_value'   => null,
 			'options'         => array(
-				'day'   => esc_attr_x( 'Days', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
-				'week'  => esc_attr_x( 'Week', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
-				'month' => esc_attr_x( 'Month', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
-				'year'  => esc_attr_x( 'Year', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+				'day'   => esc_attr_x( 'Days', 'WooCommerce Subscriptions', 'crazy-automator' ),
+				'week'  => esc_attr_x( 'Week', 'WooCommerce Subscriptions', 'crazy-automator' ),
+				'month' => esc_attr_x( 'Month', 'WooCommerce Subscriptions', 'crazy-automator' ),
+				'year'  => esc_attr_x( 'Year', 'WooCommerce Subscriptions', 'crazy-automator' ),
 			),
 			'options_show_id' => false,
 		);
@@ -94,21 +94,21 @@ class WC_SHORTEN_USER_SUBSCRIPTION {
 		$options = array(
 			'options_group' => array(
 				$this->get_action_meta() => array(
-					Automator()->helpers->recipe->woocommerce->options->pro->all_wc_subscriptions( _x( 'Subscription product', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ), $this->get_action_meta(), false, false, false ),
-					Automator()->helpers->recipe->field->text(
+					Crazy_Automator()->helpers->recipe->woocommerce->options->pro->all_wc_subscriptions( _x( 'Subscription product', 'WooCommerce Subscriptions', 'crazy-automator' ), $this->get_action_meta(), false, false, false ),
+					Crazy_Automator()->helpers->recipe->field->text(
 						array(
 							'option_code' => $this->get_action_meta() . '_NO_OF',
-							'label'       => _x( 'Number', 'WooCommerce Subscriptions', 'uncanny-automator-pro' ),
+							'label'       => _x( 'Number', 'WooCommerce Subscriptions', 'crazy-automator' ),
 							'input_type'  => 'text',
 							'tokens'      => true,
 						)
 					),
-					Automator()->helpers->recipe->field->select( $select ),
+					Crazy_Automator()->helpers->recipe->field->select( $select ),
 				),
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options );
 	}
 
 	/**
@@ -133,8 +133,8 @@ class WC_SHORTEN_USER_SUBSCRIPTION {
 		$product = wc_get_product( absint( $product_id ) );
 		if ( ! $product->is_type( 'subscription' ) ) {
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = _x( 'The product is not of a subscription type.', 'woocommerce-subscriptions', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = _x( 'The product is not of a subscription type.', 'woocommerce-subscriptions', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
@@ -153,8 +153,8 @@ class WC_SHORTEN_USER_SUBSCRIPTION {
 		if ( empty( $subscriptions ) ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = _x( 'No active subscriptions were found.', 'WooCommerce Subscriptions', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = _x( 'No active subscriptions were found.', 'WooCommerce Subscriptions', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
@@ -199,12 +199,12 @@ class WC_SHORTEN_USER_SUBSCRIPTION {
 		if ( 0 === $count ) {
 			$action_data['do-nothing'] = true;
 			//$action_data['complete_with_errors'] = true;
-			$error_message = _x( 'The subscription has no end date.', 'WooCommerce Subscriptions', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message = _x( 'The subscription has no end date.', 'WooCommerce Subscriptions', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 
-		Automator()->complete->action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id );
 	}
 }

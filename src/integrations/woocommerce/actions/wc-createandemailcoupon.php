@@ -1,15 +1,15 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 /**
  * Class WC_CREATEANDEMAILCOUPON
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_CREATEANDEMAILCOUPON {
 
-	use \Uncanny_Automator\Recipe\Action_Tokens;
+	use \Crazy_Automator\Recipe\Action_Tokens;
 
 	/**
 	 * Integration code
@@ -42,16 +42,16 @@ class WC_CREATEANDEMAILCOUPON {
 	public function define_action() {
 
 		$action = array(
-			'author'             => Automator()->get_author_name( $this->action_code ),
-			'support_link'       => Automator()->get_author_support_link( $this->action_code, 'integration/woocommerce/' ),
+			'author'             => Crazy_Automator()->get_author_name( $this->action_code ),
+			'support_link'       => Crazy_Automator()->get_author_support_link( $this->action_code, 'integration/woocommerce/' ),
 			'is_pro'             => true,
 			'requires_user'      => false,
 			'integration'        => self::$integration,
 			'code'               => $this->action_code,
 			/* translators: Action - WooCommerce */
-			'sentence'           => sprintf( __( 'Generate and email a coupon {{code:%1$s}}', 'uncanny-automator-pro' ), $this->action_meta ),
+			'sentence'           => sprintf( __( 'Generate and email a coupon {{code:%1$s}}', 'crazy-automator' ), $this->action_meta ),
 			/* translators: Action - WooCommerce */
-			'select_option_name' => __( 'Generate and email a coupon {{code}}', 'uncanny-automator-pro' ),
+			'select_option_name' => __( 'Generate and email a coupon {{code}}', 'crazy-automator' ),
 			'priority'           => 10,
 			'accepted_args'      => 1,
 			'execution_function' => array( $this, 'create_and_email_coupon' ),
@@ -61,17 +61,17 @@ class WC_CREATEANDEMAILCOUPON {
 		$this->set_action_tokens(
 			array(
 				'COUPON_ID'   => array(
-					'name' => __( 'Coupon ID', 'uncanny-automator-pro' ),
+					'name' => __( 'Coupon ID', 'crazy-automator' ),
 				),
 				'COUPON_CODE' => array(
-					'name' => __( 'Generated coupon code', 'uncanny-automator-pro' ),
+					'name' => __( 'Generated coupon code', 'crazy-automator' ),
 					'type' => 'text',
 				),
 			),
 			$this->action_code
 		);
 
-		Automator()->register->action( $action );
+		Crazy_Automator()->register->action( $action );
 
 	}
 
@@ -92,84 +92,84 @@ class WC_CREATEANDEMAILCOUPON {
 		$options_array   = array(
 			'options_group' => array(
 				$this->action_meta => array(
-					Automator()->helpers->recipe->field->text_field( 'CODETITLE', __( 'Coupon code', 'uncanny-automator-pro' ), true, 'text', '', false, _x( 'A random string of 8 characters will be generated if coupon code field is left empty.', 'WooCommerce coupon', 'uncanny-automator-pro' ), $this->unique_coupon_id() ),
-					Automator()->helpers->recipe->field->text_field( 'CODEDESCRIPTION', __( 'Description', 'uncanny-automator-pro' ), true, 'text', '', false ),
-					Automator()->helpers->recipe->field->select_field(
+					Crazy_Automator()->helpers->recipe->field->text_field( 'CODETITLE', __( 'Coupon code', 'crazy-automator' ), true, 'text', '', false, _x( 'A random string of 8 characters will be generated if coupon code field is left empty.', 'WooCommerce coupon', 'crazy-automator' ), $this->unique_coupon_id() ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'CODEDESCRIPTION', __( 'Description', 'crazy-automator' ), true, 'text', '', false ),
+					Crazy_Automator()->helpers->recipe->field->select_field(
 						'DISCOUNTTYPE',
-						__( 'Discount type', 'uncanny-automator-pro' ),
+						__( 'Discount type', 'crazy-automator' ),
 						array(
-							'percent'       => __( 'Percentage discount', 'uncanny-automator-pro' ),
-							'fixed_cart'    => __( 'Fixed cart discount', 'uncanny-automator-pro' ),
-							'fixed_product' => __( 'Fixed product discount', 'uncanny-automator-pro' ),
+							'percent'       => __( 'Percentage discount', 'crazy-automator' ),
+							'fixed_cart'    => __( 'Fixed cart discount', 'crazy-automator' ),
+							'fixed_product' => __( 'Fixed product discount', 'crazy-automator' ),
 						)
 					),
-					Automator()->helpers->recipe->field->text_field( 'COUPONAMOUNT', __( 'Coupon amount', 'uncanny-automator-pro' ), true, 'float', '', false, __( 'Value of the coupon.', 'uncanny-automator-pro' ), _x( '0.00', 'WooCommerce coupon', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'ALLOWFREESHIPPING', __( 'Allow free shipping', 'uncanny-automator-pro' ), true, 'checkbox', '', false, sprintf( __( 'Check this option if the coupon grants free shipping. A <a href="%s" target="_blank">free shipping method</a> must be enabled in your shipping zone and be set to require "a valid free shipping coupon" (see the "Free Shipping Requires" setting).', 'uncanny-automator-pro' ), 'https://docs.woocommerce.com/document/free-shipping/' ) ),
-					Automator()->helpers->recipe->field->text_field( 'COUPONEXPIRYDATE', __( 'Coupon expiry date', 'uncanny-automator-pro' ), true, 'text', '', false, __( 'Enter a number of days until expiry or enter a specific date in YYYY-MM-DD format. The coupon will expire at 00:00:00 on the expiry date.', 'uncanny-automator-pro' ), '' ),
-					Automator()->helpers->recipe->field->text_field( 'MINIMUMSPEND', __( 'Minimum spend', 'uncanny-automator-pro' ), true, 'int', '', false, __( 'This field allows you to set the minimum spend (subtotal) allowed to use the coupon.', 'uncanny-automator-pro' ), _x( '0.00', 'WooCommerce coupon', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'MAXIMUMSPEND', __( 'Maximum spend', 'uncanny-automator-pro' ), true, 'int', '', false, __( 'This field allows you to set the maximum spend (subtotal) allowed when using the coupon.', 'uncanny-automator-pro' ), _x( '0.00', 'WooCommerce coupon', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'INDIVIDUALUSEONLY', __( 'Individual use only', 'uncanny-automator-pro' ), true, 'checkbox', '', false, __( 'Check this box if the coupon cannot be used in conjunction with other coupons.', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'EXCLUDESALEITEMS', __( 'Exclude sale items', 'uncanny-automator-pro' ), true, 'checkbox', '', false, __( 'Check this box if the coupon should not apply to items on sale. Per-item coupons will only work if the item is not on sale. Per-cart coupons will only work if there are items in the cart that are not on sale.', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->woocommerce->pro->all_wc_products_multiselect(
-						__( 'Products', 'uncanny-automator-pro' ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'COUPONAMOUNT', __( 'Coupon amount', 'crazy-automator' ), true, 'float', '', false, __( 'Value of the coupon.', 'crazy-automator' ), _x( '0.00', 'WooCommerce coupon', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'ALLOWFREESHIPPING', __( 'Allow free shipping', 'crazy-automator' ), true, 'checkbox', '', false, sprintf( __( 'Check this option if the coupon grants free shipping. A <a href="%s" target="_blank">free shipping method</a> must be enabled in your shipping zone and be set to require "a valid free shipping coupon" (see the "Free Shipping Requires" setting).', 'crazy-automator' ), 'https://docs.woocommerce.com/document/free-shipping/' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'COUPONEXPIRYDATE', __( 'Coupon expiry date', 'crazy-automator' ), true, 'text', '', false, __( 'Enter a number of days until expiry or enter a specific date in YYYY-MM-DD format. The coupon will expire at 00:00:00 on the expiry date.', 'crazy-automator' ), '' ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'MINIMUMSPEND', __( 'Minimum spend', 'crazy-automator' ), true, 'int', '', false, __( 'This field allows you to set the minimum spend (subtotal) allowed to use the coupon.', 'crazy-automator' ), _x( '0.00', 'WooCommerce coupon', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'MAXIMUMSPEND', __( 'Maximum spend', 'crazy-automator' ), true, 'int', '', false, __( 'This field allows you to set the maximum spend (subtotal) allowed when using the coupon.', 'crazy-automator' ), _x( '0.00', 'WooCommerce coupon', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'INDIVIDUALUSEONLY', __( 'Individual use only', 'crazy-automator' ), true, 'checkbox', '', false, __( 'Check this box if the coupon cannot be used in conjunction with other coupons.', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'EXCLUDESALEITEMS', __( 'Exclude sale items', 'crazy-automator' ), true, 'checkbox', '', false, __( 'Check this box if the coupon should not apply to items on sale. Per-item coupons will only work if the item is not on sale. Per-cart coupons will only work if there are items in the cart that are not on sale.', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->woocommerce->pro->all_wc_products_multiselect(
+						__( 'Products', 'crazy-automator' ),
 						'PRODUCTSIDS',
 						array(
-							'description' => __( 'Products that the coupon will be applied to, or that need to be in the cart in order for the "Fixed cart discount" to be applied.', 'uncanny-automator-pro' ),
+							'description' => __( 'Products that the coupon will be applied to, or that need to be in the cart in order for the "Fixed cart discount" to be applied.', 'crazy-automator' ),
 							'required'    => false,
 						)
 					),
-					Automator()->helpers->recipe->woocommerce->pro->all_wc_products_multiselect(
-						__( 'Exclude products', 'uncanny-automator-pro' ),
+					Crazy_Automator()->helpers->recipe->woocommerce->pro->all_wc_products_multiselect(
+						__( 'Exclude products', 'crazy-automator' ),
 						'EXCLUDEPRODUCTSIDS',
 						array(
-							'description' => __( 'Products that the coupon will not be applied to, or that cannot be in the cart in order for the "Fixed cart discount" to be applied.', 'uncanny-automator-pro' ),
+							'description' => __( 'Products that the coupon will not be applied to, or that cannot be in the cart in order for the "Fixed cart discount" to be applied.', 'crazy-automator' ),
 							'required'    => false,
 						)
 					),
-					Automator()->helpers->recipe->woocommerce->pro->all_wc_product_categories(
-						__( 'Product categories', 'uncanny-automator-pro' ),
+					Crazy_Automator()->helpers->recipe->woocommerce->pro->all_wc_product_categories(
+						__( 'Product categories', 'crazy-automator' ),
 						'PRODUCTCATS',
 						array(
-							'description'              => __( 'Product categories that the coupon will be applied to, or that need to be in the cart in order for the "Fixed cart discount" to be applied.', 'uncanny-automator-pro' ),
+							'description'              => __( 'Product categories that the coupon will be applied to, or that need to be in the cart in order for the "Fixed cart discount" to be applied.', 'crazy-automator' ),
 							'supports_multiple_values' => true,
 							'required'                 => false,
 						)
 					),
-					Automator()->helpers->recipe->woocommerce->pro->all_wc_product_categories(
-						__( 'Exclude categories', 'uncanny-automator-pro' ),
+					Crazy_Automator()->helpers->recipe->woocommerce->pro->all_wc_product_categories(
+						__( 'Exclude categories', 'crazy-automator' ),
 						'EXCLUDEPRODUCTCATS',
 						array(
-							'description'              => __( 'Product categories that the coupon will not be applied to, or that cannot be in the cart in order for the "Fixed cart discount" to be applied.', 'uncanny-automator-pro' ),
+							'description'              => __( 'Product categories that the coupon will not be applied to, or that cannot be in the cart in order for the "Fixed cart discount" to be applied.', 'crazy-automator' ),
 							'supports_multiple_values' => true,
 							'required'                 => false,
 						)
 					),
-					Automator()->helpers->recipe->field->text_field( 'CUSTOMEREMAILS', __( 'Allowed emails', 'uncanny-automator-pro' ), true, 'text', '', false, __( 'List of allowed billing emails to check against when an order is placed. Separate email addresses with commas. You can also use an asterisk (*) to match parts of an email. For example "*@gmail.com" would match all gmail addresses.', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'USAGELIMITPERCOUPON', __( 'Usage limit per coupon', 'uncanny-automator-pro' ), true, 'int', '', false, __( 'How many times this coupon can be used before it is void.', 'uncanny-automator-pro' ), __( 'Unlimited usage', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'LIMITUSAGEXITEMS', __( 'Limit usage to X items', 'uncanny-automator-pro' ), true, 'int', '', false, __( 'The maximum number of individual items this coupon can apply to when using product discounts. Leave blank to apply to all qualifying items in cart.', 'uncanny-automator-pro' ), __( 'Unlimited usage', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'USAGELIMITPERUSER', __( 'Usage limit per user', 'uncanny-automator-pro' ), true, 'int', '', false, __( 'How many times this coupon can be used by an individual user. Uses billing email for guests, and user ID for logged in users.', 'uncanny-automator-pro' ), __( 'Unlimited usage', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'EMAILFROM', __( 'From', 'uncanny-automator-pro' ), true, 'email', '{{admin_email}}', true, '' ),
-					Automator()->helpers->recipe->field->text_field( 'EMAILTO', __( 'To', 'uncanny-automator-pro' ), true, 'email', '', true, esc_html__( 'Separate multiple email addresses with a comma', 'uncanny-automator-pro' ) ),
-					Automator()->helpers->recipe->field->text_field( 'REPLYTO', __( 'Reply to', 'uncanny-automator-pro' ), true, 'email', '', false ),
-					Automator()->helpers->recipe->field->text_field( 'EMAILCC', __( 'CC', 'uncanny-automator-pro' ), true, 'email', '', false ),
-					Automator()->helpers->recipe->field->text_field( 'EMAILBCC', __( 'BCC', 'uncanny-automator-pro' ), true, 'email', '', false ),
-					Automator()->helpers->recipe->field->text_field( 'EMAILSUBJECT', __( 'Subject', 'uncanny-automator-pro' ), true ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'CUSTOMEREMAILS', __( 'Allowed emails', 'crazy-automator' ), true, 'text', '', false, __( 'List of allowed billing emails to check against when an order is placed. Separate email addresses with commas. You can also use an asterisk (*) to match parts of an email. For example "*@gmail.com" would match all gmail addresses.', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'USAGELIMITPERCOUPON', __( 'Usage limit per coupon', 'crazy-automator' ), true, 'int', '', false, __( 'How many times this coupon can be used before it is void.', 'crazy-automator' ), __( 'Unlimited usage', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'LIMITUSAGEXITEMS', __( 'Limit usage to X items', 'crazy-automator' ), true, 'int', '', false, __( 'The maximum number of individual items this coupon can apply to when using product discounts. Leave blank to apply to all qualifying items in cart.', 'crazy-automator' ), __( 'Unlimited usage', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'USAGELIMITPERUSER', __( 'Usage limit per user', 'crazy-automator' ), true, 'int', '', false, __( 'How many times this coupon can be used by an individual user. Uses billing email for guests, and user ID for logged in users.', 'crazy-automator' ), __( 'Unlimited usage', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'EMAILFROM', __( 'From', 'crazy-automator' ), true, 'email', '{{admin_email}}', true, '' ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'EMAILTO', __( 'To', 'crazy-automator' ), true, 'email', '', true, esc_html__( 'Separate multiple email addresses with a comma', 'crazy-automator' ) ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'REPLYTO', __( 'Reply to', 'crazy-automator' ), true, 'email', '', false ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'EMAILCC', __( 'CC', 'crazy-automator' ), true, 'email', '', false ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'EMAILBCC', __( 'BCC', 'crazy-automator' ), true, 'email', '', false ),
+					Crazy_Automator()->helpers->recipe->field->text_field( 'EMAILSUBJECT', __( 'Subject', 'crazy-automator' ), true ),
 
 					// Email Content Field.
-					Automator()->helpers->recipe->field->text(
+					Crazy_Automator()->helpers->recipe->field->text(
 						array(
 							'option_code'               => 'EMAILBODY',
 							/* translators: Email field */
-							'label'                     => esc_attr__( 'Email body', 'uncanny-automator' ),
+							'label'                     => esc_attr__( 'Email body', 'crazy-automator' ),
 							'input_type'                => 'textarea',
 							'supports_fullpage_editing' => true,
 							'default'                   => __(
 								'Hi,
 						Use coupon code {{coupon_code}} for a discount on your next purchase!
 						The {{site_name}} team',
-								'uncanny-automator-pro'
+								'crazy-automator'
 							),
-							'description'               => sprintf( __( 'Use following tokens in email: %s', 'uncanny-automator-pro' ), join( '<br />', $available_codes ) ),
+							'description'               => sprintf( __( 'Use following tokens in email: %s', 'crazy-automator' ), join( '<br />', $available_codes ) ),
 						)
 					),
 
@@ -177,7 +177,7 @@ class WC_CREATEANDEMAILCOUPON {
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options_array );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options_array );
 	}
 
 	/**
@@ -198,27 +198,27 @@ class WC_CREATEANDEMAILCOUPON {
 	 */
 	public function create_and_email_coupon( $user_id, $action_data, $recipe_id, $args ) {
 
-		$coupon_code = Automator()->parse->text( $action_data['meta']['CODETITLE'], $recipe_id, $user_id, $args );
+		$coupon_code = Crazy_Automator()->parse->text( $action_data['meta']['CODETITLE'], $recipe_id, $user_id, $args );
 		if ( empty( $coupon_code ) ) {
 			$coupon_code = $this->unique_coupon_id();
 		}
-		$coupon_description         = Automator()->parse->text( $action_data['meta']['CODEDESCRIPTION'], $recipe_id, $user_id, $args );
-		$discount_type              = Automator()->parse->text( $action_data['meta']['DISCOUNTTYPE'], $recipe_id, $user_id, $args );
-		$coupon_amount              = Automator()->parse->text( $action_data['meta']['COUPONAMOUNT'], $recipe_id, $user_id, $args );
-		$allow_free_shipping        = Automator()->parse->text( $action_data['meta']['ALLOWFREESHIPPING'], $recipe_id, $user_id, $args );
-		$coupon_expiry_date         = Automator()->parse->text( $action_data['meta']['COUPONEXPIRYDATE'], $recipe_id, $user_id, $args );
-		$minimum_spend              = Automator()->parse->text( $action_data['meta']['MINIMUMSPEND'], $recipe_id, $user_id, $args );
-		$maximum_spend              = Automator()->parse->text( $action_data['meta']['MAXIMUMSPEND'], $recipe_id, $user_id, $args );
-		$individual_use             = Automator()->parse->text( $action_data['meta']['INDIVIDUALUSEONLY'], $recipe_id, $user_id, $args );
-		$exclude_sale_items         = Automator()->parse->text( $action_data['meta']['EXCLUDESALEITEMS'], $recipe_id, $user_id, $args );
+		$coupon_description         = Crazy_Automator()->parse->text( $action_data['meta']['CODEDESCRIPTION'], $recipe_id, $user_id, $args );
+		$discount_type              = Crazy_Automator()->parse->text( $action_data['meta']['DISCOUNTTYPE'], $recipe_id, $user_id, $args );
+		$coupon_amount              = Crazy_Automator()->parse->text( $action_data['meta']['COUPONAMOUNT'], $recipe_id, $user_id, $args );
+		$allow_free_shipping        = Crazy_Automator()->parse->text( $action_data['meta']['ALLOWFREESHIPPING'], $recipe_id, $user_id, $args );
+		$coupon_expiry_date         = Crazy_Automator()->parse->text( $action_data['meta']['COUPONEXPIRYDATE'], $recipe_id, $user_id, $args );
+		$minimum_spend              = Crazy_Automator()->parse->text( $action_data['meta']['MINIMUMSPEND'], $recipe_id, $user_id, $args );
+		$maximum_spend              = Crazy_Automator()->parse->text( $action_data['meta']['MAXIMUMSPEND'], $recipe_id, $user_id, $args );
+		$individual_use             = Crazy_Automator()->parse->text( $action_data['meta']['INDIVIDUALUSEONLY'], $recipe_id, $user_id, $args );
+		$exclude_sale_items         = Crazy_Automator()->parse->text( $action_data['meta']['EXCLUDESALEITEMS'], $recipe_id, $user_id, $args );
 		$products_ids               = json_decode( $action_data['meta']['PRODUCTSIDS'] );
 		$exclude_product_ids        = json_decode( $action_data['meta']['EXCLUDEPRODUCTSIDS'] );
 		$product_categories         = json_decode( $action_data['meta']['PRODUCTCATS'] );
 		$exclude_product_categories = json_decode( $action_data['meta']['EXCLUDEPRODUCTCATS'] );
-		$customer_emails            = Automator()->parse->text( $action_data['meta']['CUSTOMEREMAILS'], $recipe_id, $user_id, $args );
-		$usage_limit_per_coupon     = Automator()->parse->text( $action_data['meta']['USAGELIMITPERCOUPON'], $recipe_id, $user_id, $args );
-		$limit_usage_to_x_items     = Automator()->parse->text( $action_data['meta']['LIMITUSAGEXITEMS'], $recipe_id, $user_id, $args );
-		$usage_limit_per_user       = Automator()->parse->text( $action_data['meta']['USAGELIMITPERUSER'], $recipe_id, $user_id, $args );
+		$customer_emails            = Crazy_Automator()->parse->text( $action_data['meta']['CUSTOMEREMAILS'], $recipe_id, $user_id, $args );
+		$usage_limit_per_coupon     = Crazy_Automator()->parse->text( $action_data['meta']['USAGELIMITPERCOUPON'], $recipe_id, $user_id, $args );
+		$limit_usage_to_x_items     = Crazy_Automator()->parse->text( $action_data['meta']['LIMITUSAGEXITEMS'], $recipe_id, $user_id, $args );
+		$usage_limit_per_user       = Crazy_Automator()->parse->text( $action_data['meta']['USAGELIMITPERUSER'], $recipe_id, $user_id, $args );
 
 		$allow_free_shipping = 'true' === $allow_free_shipping ? 'yes' : 'no';
 		$individual_use      = 'true' === $individual_use ? 'yes' : 'no';
@@ -255,11 +255,11 @@ class WC_CREATEANDEMAILCOUPON {
 			if ( is_wp_error( $coupon_id ) ) {
 				$error_message = $coupon_id->get_error_message();
 			} else {
-				$error_message = __( 'Unknown error while creating coupon.', 'uncanny-automator-pro' );
+				$error_message = __( 'Unknown error while creating coupon.', 'crazy-automator' );
 			}
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
@@ -282,25 +282,25 @@ class WC_CREATEANDEMAILCOUPON {
 		update_post_meta( $coupon_id, 'limit_usage_to_x_items', $limit_usage_to_x_items );
 		update_post_meta( $coupon_id, 'usage_limit_per_user', $usage_limit_per_user );
 
-		$to         = Automator()->parse->text( $action_data['meta']['EMAILTO'], $recipe_id, $user_id, $args );
-		$reply_to   = Automator()->parse->text( $action_data['meta']['REPLYTO'], $recipe_id, $user_id, $args );
-		$from       = Automator()->parse->text( $action_data['meta']['EMAILFROM'], $recipe_id, $user_id, $args );
-		$cc         = Automator()->parse->text( $action_data['meta']['EMAILCC'], $recipe_id, $user_id, $args );
-		$bcc        = Automator()->parse->text( $action_data['meta']['EMAILBCC'], $recipe_id, $user_id, $args );
+		$to         = Crazy_Automator()->parse->text( $action_data['meta']['EMAILTO'], $recipe_id, $user_id, $args );
+		$reply_to   = Crazy_Automator()->parse->text( $action_data['meta']['REPLYTO'], $recipe_id, $user_id, $args );
+		$from       = Crazy_Automator()->parse->text( $action_data['meta']['EMAILFROM'], $recipe_id, $user_id, $args );
+		$cc         = Crazy_Automator()->parse->text( $action_data['meta']['EMAILCC'], $recipe_id, $user_id, $args );
+		$bcc        = Crazy_Automator()->parse->text( $action_data['meta']['EMAILBCC'], $recipe_id, $user_id, $args );
 		$subject    = $action_data['meta']['EMAILSUBJECT'];
 		$subject    = str_ireplace( '{{coupon_code}}', get_the_title( $coupon_id ), $subject );
 		$subject    = str_ireplace( '{{coupon_amount}}', $coupon_amount, $subject );
 		$subject    = str_ireplace( '{{coupon_expiry_date}}', $coupon_expiry_date, $subject );
 		$subject    = str_ireplace( '{{coupon_minimum_spend}}', $minimum_spend, $subject );
 		$subject    = apply_filters( 'automator_woocommerce_coupon_email_subject', $subject, $coupon_id );
-		$subject    = Automator()->parse->text( $subject, $recipe_id, $user_id, $args );
+		$subject    = Crazy_Automator()->parse->text( $subject, $recipe_id, $user_id, $args );
 		$email_body = $action_data['meta']['EMAILBODY'];
 		$email_body = str_ireplace( '{{coupon_code}}', get_the_title( $coupon_id ), $email_body );
 		$email_body = str_ireplace( '{{coupon_amount}}', $coupon_amount, $email_body );
 		$email_body = str_ireplace( '{{coupon_expiry_date}}', $coupon_expiry_date, $email_body );
 		$email_body = str_ireplace( '{{coupon_minimum_spend}}', $minimum_spend, $email_body );
 		$email_body = apply_filters( 'automator_woocommerce_coupon_email_body', $email_body, $coupon_id );
-		$email_body = Automator()->parse->text( $email_body, $recipe_id, $user_id, $args );
+		$email_body = Crazy_Automator()->parse->text( $email_body, $recipe_id, $user_id, $args );
 		$email_body = do_shortcode( $email_body );
 
 		$headers[] = 'From: <' . $from . '>';
@@ -322,10 +322,10 @@ class WC_CREATEANDEMAILCOUPON {
 		$mailed = wp_mail( $to, $subject, $email_body, $headers );
 
 		if ( ! $mailed ) {
-			$error_message                       = Automator()->error_message->get( 'email-failed' );
+			$error_message                       = Crazy_Automator()->error_message->get( 'email-failed' );
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
@@ -337,7 +337,7 @@ class WC_CREATEANDEMAILCOUPON {
 			)
 		);
 
-		Automator()->complete_action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id );
 	}
 
 }

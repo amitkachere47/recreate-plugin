@@ -18,7 +18,7 @@ class ANON_WC_VARINVENTORYCHANGED {
 	/**
 	 * Tokens var
 	 *
-	 * @var Wc_Pro_Tokens|null
+	 * @var Crazy_Wc_Pro_Tokens|null
 	 */
 	protected $wc_tokens = null;
 

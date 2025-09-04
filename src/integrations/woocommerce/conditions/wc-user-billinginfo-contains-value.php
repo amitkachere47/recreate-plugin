@@ -1,11 +1,11 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 /**
  * Class WC_USER_BILLINGINFO_CONTAINS_VALUE
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_USER_BILLINGINFO_CONTAINS_VALUE extends Action_Condition {
 
@@ -18,10 +18,10 @@ class WC_USER_BILLINGINFO_CONTAINS_VALUE extends Action_Condition {
 
 		$this->integration = 'WC';
 		/*translators: Token */
-		$this->name = __( "The user's {{billing information}} {{contains}} {{a specific value}}", 'uncanny-automator-pro' );
+		$this->name = __( "The user's {{billing information}} {{contains}} {{a specific value}}", 'crazy-automator' );
 		$this->code = 'BILLINGINFO_CONTAINS_VALUE';
 		/*translators: A token matches a value */
-		$this->dynamic_name  = sprintf( esc_html__( "The user's billing {{information:%1\$s}} {{contains:%2\$s}} {{a specific value:%3\$s}}", 'uncanny-automator-pro' ), 'BILLING_FIELD', 'BILLING_CONDITION', 'BILLING_FIELD_VALUE' );
+		$this->dynamic_name  = sprintf( esc_html__( "The user's billing {{information:%1\$s}} {{contains:%2\$s}} {{a specific value:%3\$s}}", 'crazy-automator' ), 'BILLING_FIELD', 'BILLING_CONDITION', 'BILLING_FIELD_VALUE' );
 		$this->requires_user = true;
 	}
 
@@ -34,7 +34,7 @@ class WC_USER_BILLINGINFO_CONTAINS_VALUE extends Action_Condition {
 
 		$shipping_field_args = array(
 			'option_code'           => 'BILLING_FIELD',
-			'label'                 => esc_html__( 'Information', 'uncanny-automator-pro' ),
+			'label'                 => esc_html__( 'Information', 'crazy-automator' ),
 			'required'              => true,
 			'options'               => $this->wc_billinginfo_fields(),
 			'supports_custom_value' => true,
@@ -47,16 +47,16 @@ class WC_USER_BILLINGINFO_CONTAINS_VALUE extends Action_Condition {
 			$this->field->select_field_args(
 				array(
 					'option_code'           => 'BILLING_CONDITION',
-					'label'                 => esc_html__( 'Condition', 'uncanny-automator-pro' ),
+					'label'                 => esc_html__( 'Condition', 'crazy-automator' ),
 					'required'              => true,
 					'options'               => array(
 						array(
 							'value' => 'contains',
-							'text'  => __( 'contains', 'uncanny-automator-pro' ),
+							'text'  => __( 'contains', 'crazy-automator' ),
 						),
 						array(
 							'value' => 'not_contains',
-							'text'  => __( 'does not contain', 'uncanny-automator-pro' ),
+							'text'  => __( 'does not contain', 'crazy-automator' ),
 						),
 					),
 					'supports_custom_value' => false,
@@ -66,7 +66,7 @@ class WC_USER_BILLINGINFO_CONTAINS_VALUE extends Action_Condition {
 			$this->field->text(
 				array(
 					'option_code' => 'BILLING_FIELD_VALUE',
-					'label'       => esc_html__( 'Value', 'uncanny-automator-pro' ),
+					'label'       => esc_html__( 'Value', 'crazy-automator' ),
 					'required'    => true,
 				)
 			),
@@ -79,14 +79,14 @@ class WC_USER_BILLINGINFO_CONTAINS_VALUE extends Action_Condition {
 	public function wc_billinginfo_fields() {
 
 		$options = array(
-			'billing_address_1' => __( 'Address line 1', 'uncanny-automator-pro' ),
-			'billing_address_2' => __( 'Address line 2', 'uncanny-automator-pro' ),
-			'billing_city'      => __( 'City', 'uncanny-automator-pro' ),
-			'billing_state'     => __( 'State', 'uncanny-automator-pro' ),
-			'billing_country'   => __( 'Country', 'uncanny-automator-pro' ),
-			'billing_email'     => __( 'Email', 'uncanny-automator-pro' ),
-			'billing_phone'     => __( 'Phone', 'uncanny-automator-pro' ),
-			'billing_company'   => __( 'Company', 'uncanny-automator-pro' ),
+			'billing_address_1' => __( 'Address line 1', 'crazy-automator' ),
+			'billing_address_2' => __( 'Address line 2', 'crazy-automator' ),
+			'billing_city'      => __( 'City', 'crazy-automator' ),
+			'billing_state'     => __( 'State', 'crazy-automator' ),
+			'billing_country'   => __( 'Country', 'crazy-automator' ),
+			'billing_email'     => __( 'Email', 'crazy-automator' ),
+			'billing_phone'     => __( 'Phone', 'crazy-automator' ),
+			'billing_company'   => __( 'Company', 'crazy-automator' ),
 		);
 
 		foreach ( $options as $id => $text ) {
@@ -116,13 +116,13 @@ class WC_USER_BILLINGINFO_CONTAINS_VALUE extends Action_Condition {
 		switch ( $condition ) {
 			case 'contains':
 				if ( false === $position ) {
-					$message = __( 'Billing info does not contain value: ', 'uncanny-automator-pro' ) . $billing_value;
+					$message = __( 'Billing info does not contain value: ', 'crazy-automator' ) . $billing_value;
 					$this->condition_failed( $message );
 				}
 				break;
 			case 'not_contains':
 				if ( is_numeric( $position ) ) {
-					$message = __( 'Billing info contains value: ', 'uncanny-automator-pro' ) . $billing_value;
+					$message = __( 'Billing info contains value: ', 'crazy-automator' ) . $billing_value;
 					$this->condition_failed( $message );
 				}
 				break;

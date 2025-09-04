@@ -1,8 +1,8 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
-use Uncanny_Automator\Recipe;
+use Crazy_Automator\Recipe;
 
 class WC_ADD_PRODUCT_TO_ORDER {
 	use Recipe\Actions;
@@ -25,11 +25,11 @@ class WC_ADD_PRODUCT_TO_ORDER {
 		$this->set_requires_user( false );
 		$this->set_is_pro( true );
 		/* translators: Action - WooCommerce */
-		$this->set_sentence( sprintf( esc_attr__( 'Add {{a product:%1$s}} to {{an order:%2$s}}', 'uncanny-automator-pro' ), 'WC_PRODUCTS', $this->get_action_meta() ) );
+		$this->set_sentence( sprintf( esc_attr__( 'Add {{a product:%1$s}} to {{an order:%2$s}}', 'crazy-automator' ), 'WC_PRODUCTS', $this->get_action_meta() ) );
 		/* translators: Action - WooCommerce */
-		$this->set_readable_sentence( esc_attr__( 'Add {{a product}} to {{an order}}', 'uncanny-automator-pro' ) );
+		$this->set_readable_sentence( esc_attr__( 'Add {{a product}} to {{an order}}', 'crazy-automator' ) );
 		$this->set_options_callback( array( $this, 'load_options' ) );
-		$this->set_action_tokens( Wc_Pro_Tokens::get_product_added_to_order_action_tokens(), $this->action_code );
+		$this->set_action_tokens( Crazy_Wc_Pro_Tokens::get_product_added_to_order_action_tokens(), $this->action_code );
 		$this->register_action();
 	}
 
@@ -42,17 +42,17 @@ class WC_ADD_PRODUCT_TO_ORDER {
 
 		$options = array(
 			'options' => array(
-				Automator()->helpers->recipe->woocommerce->options->pro->all_wc_products( null, 'WC_PRODUCTS', false, false ),
-				Automator()->helpers->recipe->field->text(
+				Crazy_Automator()->helpers->recipe->woocommerce->options->pro->all_wc_products( null, 'WC_PRODUCTS', false, false ),
+				Crazy_Automator()->helpers->recipe->field->text(
 					array(
 						'option_code' => $this->get_action_meta(),
-						'label'       => esc_attr_x( 'Order ID', 'WooCommerce', 'uncanny-automator-pro' ),
+						'label'       => esc_attr_x( 'Order ID', 'WooCommerce', 'crazy-automator' ),
 					)
 				),
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options );
 	}
 
 	/**
@@ -77,8 +77,8 @@ class WC_ADD_PRODUCT_TO_ORDER {
 		if ( ! $order instanceof \WC_Order ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = sprintf( esc_html_x( 'Order #%d not found.', 'WooCommerce', 'uncanny-automator-pro' ), $order_id );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = sprintf( esc_html_x( 'Order #%d not found.', 'WooCommerce', 'crazy-automator' ), $order_id );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
@@ -89,8 +89,8 @@ class WC_ADD_PRODUCT_TO_ORDER {
 		//      if ( 'instock' !== $in_stock ) {
 		//          $action_data['do-nothing']           = true;
 		//          $action_data['complete_with_errors'] = true;
-		//          $error_message                       = sprintf( esc_html_x( 'The product %s is out of stock.', 'WooCommerce', 'uncanny-automator-pro' ), $product->get_title() );
-		//          Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+		//          $error_message                       = sprintf( esc_html_x( 'The product %s is out of stock.', 'WooCommerce', 'crazy-automator' ), $product->get_title() );
+		//          Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 		//          return;
 		//      }
@@ -99,14 +99,14 @@ class WC_ADD_PRODUCT_TO_ORDER {
 		if ( 'publish' !== $product_status ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = sprintf( esc_html_x( 'The product %s is not published.', 'WooCommerce', 'uncanny-automator-pro' ), $product->get_title() );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = sprintf( esc_html_x( 'The product %s is not published.', 'WooCommerce', 'crazy-automator' ), $product->get_title() );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 
 		$order->add_product( $product );
-		$this->hydrate_tokens( Wc_Pro_Tokens::hydrate_product_added_to_order_tokens( $order, $product_id ) );
-		Automator()->complete->action( $user_id, $action_data, $recipe_id );
+		$this->hydrate_tokens( Crazy_Wc_Pro_Tokens::hydrate_product_added_to_order_tokens( $order, $product_id ) );
+		Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id );
 	}
 }

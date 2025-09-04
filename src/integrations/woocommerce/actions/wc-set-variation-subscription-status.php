@@ -1,13 +1,13 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
-use Uncanny_Automator\Recipe;
+use Crazy_Automator\Recipe;
 
 /**
  * Class WC_SET_VARIATION_SUBSCRIPTION_STATUS
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_SET_VARIATION_SUBSCRIPTION_STATUS {
 
@@ -34,10 +34,10 @@ class WC_SET_VARIATION_SUBSCRIPTION_STATUS {
 		$this->set_is_pro( true );
 
 		/* translators: Action - WooCommerce Subscription */
-		$this->set_sentence( sprintf( esc_attr__( "Set the user's subscription to {{a specific:%1\$s}} variation of {{a variable subscription product:%2\$s}} to {{a status:%3\$s}}", 'uncanny-automator-pro' ), 'WOOVARIPRODUCT:' . $this->get_action_meta(), $this->get_action_meta(), 'WCS_STATUS' ) );
+		$this->set_sentence( sprintf( esc_attr__( "Set the user's subscription to {{a specific:%1\$s}} variation of {{a variable subscription product:%2\$s}} to {{a status:%3\$s}}", 'crazy-automator' ), 'WOOVARIPRODUCT:' . $this->get_action_meta(), $this->get_action_meta(), 'WCS_STATUS' ) );
 
 		/* translators: Action - WooCommerce Subscription */
-		$this->set_readable_sentence( esc_attr__( "Set the user's subscription to {{a specific}} variation of {{a variable subscription product}} to {{a status}}", 'uncanny-automator-pro' ) );
+		$this->set_readable_sentence( esc_attr__( "Set the user's subscription to {{a specific}} variation of {{a variable subscription product}} to {{a status}}", 'crazy-automator' ) );
 
 		$this->set_options_callback( array( $this, 'load_options' ) );
 		$this->register_action();
@@ -53,8 +53,8 @@ class WC_SET_VARIATION_SUBSCRIPTION_STATUS {
 		$options = array(
 			'options_group' => array(
 				$this->get_action_meta() => array(
-					Automator()->helpers->recipe->woocommerce->options->pro->all_wc_variation_subscriptions(
-						esc_attr__( 'Variable subscription product', 'uncanny-automator-pro' ),
+					Crazy_Automator()->helpers->recipe->woocommerce->options->pro->all_wc_variation_subscriptions(
+						esc_attr__( 'Variable subscription product', 'crazy-automator' ),
 						$this->get_action_meta(),
 						array(
 							'token'        => false,
@@ -64,15 +64,15 @@ class WC_SET_VARIATION_SUBSCRIPTION_STATUS {
 							'endpoint'     => 'select_variations_from_WOOSELECTVARIATION',
 						)
 					),
-					Automator()->helpers->recipe->field->select_field_ajax( 'WOOVARIPRODUCT', esc_attr__( 'Variation', 'uncanny-automator-pro' ) ),
+					Crazy_Automator()->helpers->recipe->field->select_field_ajax( 'WOOVARIPRODUCT', esc_attr__( 'Variation', 'crazy-automator' ) ),
 				),
 			),
 			'options'       => array(
-				Automator()->helpers->recipe->woocommerce->options->pro->wc_subscription_statuses( null, 'WCS_STATUS' ),
+				Crazy_Automator()->helpers->recipe->woocommerce->options->pro->wc_subscription_statuses( null, 'WCS_STATUS' ),
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options );
 	}
 
 	/**
@@ -92,17 +92,17 @@ class WC_SET_VARIATION_SUBSCRIPTION_STATUS {
 		if ( empty( $subscriptions ) ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( 'No subscription is associated with the user', 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
+			$error_message                       = __( 'No subscription is associated with the user', 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 
-		$variation_id                = Automator()->parse->text( $action_data['meta']['WOOVARIPRODUCT'], $recipe_id, $user_id, $args );
-		$set_status                  = Automator()->parse->text( str_replace( 'wc-', '', $action_data['meta']['WCS_STATUS'] ), $recipe_id, $user_id, $args );
-		$product_id                  = Automator()->parse->text( $action_data['meta'][ $this->get_action_meta() ], $recipe_id, $user_id, $args );
+		$variation_id                = Crazy_Automator()->parse->text( $action_data['meta']['WOOVARIPRODUCT'], $recipe_id, $user_id, $args );
+		$set_status                  = Crazy_Automator()->parse->text( str_replace( 'wc-', '', $action_data['meta']['WCS_STATUS'] ), $recipe_id, $user_id, $args );
+		$product_id                  = Crazy_Automator()->parse->text( $action_data['meta'][ $this->get_action_meta() ], $recipe_id, $user_id, $args );
 		$subscription_status_updated = false;
-		$error_message               = __( 'The user was not a subscriber of the specified product.', 'uncanny-automator-pro' );
+		$error_message               = __( 'The user was not a subscriber of the specified product.', 'crazy-automator' );
 
 		foreach ( $subscriptions as $subscription ) {
 			$items = $subscription->get_items();
@@ -112,7 +112,7 @@ class WC_SET_VARIATION_SUBSCRIPTION_STATUS {
 						$subscription->update_status( $set_status );
 						$subscription_status_updated = true;
 					} else {
-						$error_message = __( 'We are not able to change subscription status.', 'uncanny-automator-pro' );
+						$error_message = __( 'We are not able to change subscription status.', 'crazy-automator' );
 					}
 				}
 			}
@@ -121,13 +121,13 @@ class WC_SET_VARIATION_SUBSCRIPTION_STATUS {
 		if ( false === $subscription_status_updated ) {
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$message                             = __( $error_message, 'uncanny-automator-pro' );
-			Automator()->complete->action( $user_id, $action_data, $recipe_id, $message );
+			$message                             = __( $error_message, 'crazy-automator' );
+			Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id, $message );
 
 			return;
 		}
 
-		Automator()->complete->action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete->action( $user_id, $action_data, $recipe_id );
 	}
 
 }

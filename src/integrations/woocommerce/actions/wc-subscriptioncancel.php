@@ -1,10 +1,10 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 /**
  * Class WC_SUBSCRIPTIONCANCEL
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_SUBSCRIPTIONCANCEL {
 
@@ -41,22 +41,22 @@ class WC_SUBSCRIPTIONCANCEL {
 	 */
 	public function define_action() {
 		$action = array(
-			'author'             => Automator()->get_author_name(),
-			'support_link'       => Automator()->get_author_support_link( $this->action_code, 'integration/wishlist-member/' ),
+			'author'             => Crazy_Automator()->get_author_name(),
+			'support_link'       => Crazy_Automator()->get_author_support_link( $this->action_code, 'integration/wishlist-member/' ),
 			'integration'        => self::$integration,
 			'code'               => $this->action_code,
 			'is_pro'             => true,
 			/* translators: Action - WooCommerce */
-			'sentence'           => sprintf( esc_attr__( "Cancel the user's subscription to {{a variable subscription product:%1\$s}}", 'uncanny-automator-pro' ), $this->action_meta ),
+			'sentence'           => sprintf( esc_attr__( "Cancel the user's subscription to {{a variable subscription product:%1\$s}}", 'crazy-automator' ), $this->action_meta ),
 			/* translators: Action - WooCommerce */
-			'select_option_name' => esc_attr__( "Cancel the user's subscription to {{a variable subscription product}}", 'uncanny-automator-pro' ),
+			'select_option_name' => esc_attr__( "Cancel the user's subscription to {{a variable subscription product}}", 'crazy-automator' ),
 			'priority'           => 99,
 			'accepted_args'      => 1,
 			'execution_function' => array( $this, 'wcs_cancel_user_subscription' ),
 			'options_callback'   => array( $this, 'load_options' ),
 		);
 
-		Automator()->register->action( $action );
+		Crazy_Automator()->register->action( $action );
 	}
 
 	/**
@@ -65,11 +65,11 @@ class WC_SUBSCRIPTIONCANCEL {
 	public function load_options() {
 		$options_array = array(
 			'options' => array(
-				Automator()->helpers->recipe->woocommerce->options->pro->all_wc_subscriptions( esc_attr__( 'Subscription product', 'uncanny-automator-pro' ), $this->action_meta, false ),
+				Crazy_Automator()->helpers->recipe->woocommerce->options->pro->all_wc_subscriptions( esc_attr__( 'Subscription product', 'crazy-automator' ), $this->action_meta, false ),
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options_array );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options_array );
 	}
 
 	/**
@@ -89,8 +89,8 @@ class WC_SUBSCRIPTIONCANCEL {
 			$args['do-nothing']                  = true;
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$error_message                       = __( 'No subscription is associated with the user', 'uncanny-automator-pro' );
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message, $recipe_log_id, $args );
+			$error_message                       = __( 'No subscription is associated with the user', 'crazy-automator' );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message, $recipe_log_id, $args );
 
 			return;
 		}
@@ -117,12 +117,12 @@ class WC_SUBSCRIPTIONCANCEL {
 			$args['do-nothing']                  = true;
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			$message                             = __( $error_message, 'uncanny-automator-pro' );
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $message, $recipe_log_id, $args );
+			$message                             = __( $error_message, 'crazy-automator' );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $message, $recipe_log_id, $args );
 
 			return;
 		} else {
-			Automator()->complete_action( $user_id, $action_data, $recipe_id );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id );
 
 			return;
 		}

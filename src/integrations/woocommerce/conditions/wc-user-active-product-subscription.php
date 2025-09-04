@@ -1,11 +1,11 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 /**
  * Class WC_USER_ACTIVE_PRODUCT_SUBSCRIPTION
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_USER_ACTIVE_PRODUCT_SUBSCRIPTION extends Action_Condition {
 
@@ -17,11 +17,11 @@ class WC_USER_ACTIVE_PRODUCT_SUBSCRIPTION extends Action_Condition {
 	public function define_condition() {
 		$this->integration = 'WC';
 		/*translators: Token */
-		$this->name         = __( 'The user has an active subscription to {{a specific product}}', 'uncanny-automator-pro' );
+		$this->name         = __( 'The user has an active subscription to {{a specific product}}', 'crazy-automator' );
 		$this->code         = 'ACTIVE_PRODUCT_SUBSCRIPTION';
 		$this->dynamic_name = sprintf(
 			/* translators: A token matches a value */
-			esc_html__( 'The user has an active subscription to {{a specific product:%1$s}}', 'uncanny-automator-pro' ),
+			esc_html__( 'The user has an active subscription to {{a specific product:%1$s}}', 'crazy-automator' ),
 			'MEMBERSHIP'
 		);
 		$this->requires_user = true;
@@ -35,7 +35,7 @@ class WC_USER_ACTIVE_PRODUCT_SUBSCRIPTION extends Action_Condition {
 	 */
 	public function fields() {
 
-		$products_field_args = Automator()->helpers->recipe->woocommerce->pro->get_subscription_condition_field_args( 'MEMBERSHIP' );
+		$products_field_args = Crazy_Automator()->helpers->recipe->woocommerce->pro->get_subscription_condition_field_args( 'MEMBERSHIP' );
 
 		return array(
 			$this->field->select_field_args( $products_field_args ),
@@ -51,26 +51,26 @@ class WC_USER_ACTIVE_PRODUCT_SUBSCRIPTION extends Action_Condition {
 	public function evaluate_condition() {
 
 		if ( ! class_exists( 'WC_Subscriptions' ) ) {
-			$message = __( 'WooCommerce Subscription plugin is not active.', 'uncanny-automator-pro' );
+			$message = __( 'WooCommerce Subscription plugin is not active.', 'crazy-automator' );
 			$this->condition_failed( $message );
 
 			return;
 		}
 
 		$product_id = $this->get_parsed_option( 'MEMBERSHIP' );
-		$subscribed = Automator()->helpers->recipe->woocommerce->pro->evaluate_subscription_product_condition( $product_id, $this->user_id );
+		$subscribed = Crazy_Automator()->helpers->recipe->woocommerce->pro->evaluate_subscription_product_condition( $product_id, $this->user_id );
 
 		// Condition failed.
 		if ( empty( $subscribed ) ) {
 			// Generate message.
 			if ( $product_id < 0 ) {
 				// Check for Any Active subscriptions.
-				$message = __( 'The user does not have an active subscription.', 'uncanny-automator-pro' );
+				$message = __( 'The user does not have an active subscription.', 'crazy-automator' );
 			} else {
 				// Check for specific subscription.
 				$message = sprintf(
 					/* translators: Readable Option name */
-					__( 'The user does not have an active subscription to %s', 'uncanny-automator-pro' ),
+					__( 'The user does not have an active subscription to %s', 'crazy-automator' ),
 					$this->get_option( 'MEMBERSHIP_readable' )
 				);
 			}

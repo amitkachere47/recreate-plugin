@@ -1,15 +1,15 @@
 <?php
 
-namespace Uncanny_Automator_Pro;
+namespace Crazy_Automator_Pro;
 
 /**
  * Class WC_CREATEORDERWITHPG
  *
- * @package Uncanny_Automator_Pro
+ * @package Crazy_Automator_Pro
  */
 class WC_CREATEORDERWITHPG {
 
-	use \Uncanny_Automator\Recipe\Action_Tokens;
+	use \Crazy_Automator\Recipe\Action_Tokens;
 
 	/**
 	 * Integration code
@@ -47,16 +47,16 @@ class WC_CREATEORDERWITHPG {
 	public function define_action() {
 
 		$action = array(
-			'author'             => Automator()->get_author_name( $this->action_code ),
-			'support_link'       => Automator()->get_author_support_link( $this->action_code, 'integration/woocommerce/' ),
+			'author'             => Crazy_Automator()->get_author_name( $this->action_code ),
+			'support_link'       => Crazy_Automator()->get_author_support_link( $this->action_code, 'integration/woocommerce/' ),
 			'is_pro'             => true,
 			'requires_user'      => false,
 			'integration'        => self::$integration,
 			'code'               => $this->action_code,
 			/* translators: Action - WooCommerce */
-			'sentence'           => sprintf( __( 'Create an order with {{a product:%1$s}} with a payment gateway', 'uncanny-automator-pro' ), $this->action_meta ),
+			'sentence'           => sprintf( __( 'Create an order with {{a product:%1$s}} with a payment gateway', 'crazy-automator' ), $this->action_meta ),
 			/* translators: Action - WooCommerce */
-			'select_option_name' => __( 'Create an order with {{a product}} with a payment gateway', 'uncanny-automator-pro' ),
+			'select_option_name' => __( 'Create an order with {{a product}} with a payment gateway', 'crazy-automator' ),
 			'priority'           => 10,
 			'accepted_args'      => 1,
 			'execution_function' => array(
@@ -65,8 +65,8 @@ class WC_CREATEORDERWITHPG {
 			),
 			'options_callback'   => array( $this, 'load_options' ),
 		);
-		$this->set_action_tokens( Wc_Pro_Tokens::get_order_action_tokens(), $this->action_code );
-		Automator()->register->action( $action );
+		$this->set_action_tokens( Crazy_Wc_Pro_Tokens::get_order_action_tokens(), $this->action_code );
+		Crazy_Automator()->register->action( $action );
 	}
 
 	/**
@@ -78,11 +78,11 @@ class WC_CREATEORDERWITHPG {
 
 		$options_array = array(
 			'options_group' => array(
-				$this->action_meta => Automator()->helpers->recipe->woocommerce->pro->load_options_input( true ),
+				$this->action_meta => Crazy_Automator()->helpers->recipe->woocommerce->pro->load_options_input( true ),
 			),
 		);
 
-		return Automator()->utilities->keep_order_of_options( $options_array );
+		return Crazy_Automator()->utilities->keep_order_of_options( $options_array );
 	}
 
 	/**
@@ -100,27 +100,27 @@ class WC_CREATEORDERWITHPG {
 
 		// First make sure all required functions and classes exist
 		if ( ! function_exists( 'wc_create_order' ) ) {
-			$error_message                       = __( '`wc_create_order` function is missing.', 'uncanny-automator-pro' );
+			$error_message                       = __( '`wc_create_order` function is missing.', 'crazy-automator' );
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
 
-		$order = Automator()->helpers->recipe->woocommerce->pro->wc_create_order( $user_id, $action_data, $recipe_id, $args, true );
+		$order = Crazy_Automator()->helpers->recipe->woocommerce->pro->wc_create_order( $user_id, $action_data, $recipe_id, $args, true );
 
 		if ( false === $order ) {
-			$error_message                       = __( 'Action execution failed.', 'uncanny-automator-pro' );
+			$error_message                       = __( 'Action execution failed.', 'crazy-automator' );
 			$action_data['do-nothing']           = true;
 			$action_data['complete_with_errors'] = true;
-			Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
+			Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id, $error_message );
 
 			return;
 		}
-		$this->hydrate_tokens( Wc_Pro_Tokens::hydrate_order_tokens( $order ) );
+		$this->hydrate_tokens( Crazy_Wc_Pro_Tokens::hydrate_order_tokens( $order ) );
 
-		Automator()->complete_action( $user_id, $action_data, $recipe_id );
+		Crazy_Automator()->complete_action( $user_id, $action_data, $recipe_id );
 
 	}
 }
